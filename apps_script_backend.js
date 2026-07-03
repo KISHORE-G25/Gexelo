@@ -74,7 +74,7 @@ function doPost(e) {
     // Append to sheet
     sheet.appendRow([timestamp, name, email, service, details]);
 
-    // Return success response with CORS headers enabled
+    // Return success response
     return ContentService.createTextOutput(JSON.stringify({
       "result": "success",
       "message": "Submission recorded successfully"
