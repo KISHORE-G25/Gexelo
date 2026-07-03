@@ -329,7 +329,7 @@ const mainContactForm = document.getElementById('contact-form');
 const formSuccess = document.querySelector('.form-success');
 
 // TODO: Replace this URL with your actual deployed Google Apps Script Web App URL
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC8THShpkatiV0rr2D1BcoSMRVUGycpHJ1qOfkd9iJWxT9eGTsNIRMCQ2JBC4Cwvllvw/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeaeQNwLUE6kN-4wpq-5_hwuorZ4XpvR0cttlzVrfAKPXti0Xf8VEjQv_MdVah4vFVIg/exec';
 
 if (mainContactForm) {
     mainContactForm.addEventListener('submit', (e) => {
