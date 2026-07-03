@@ -340,8 +340,10 @@ if (mainContactForm) {
         btn.textContent = 'Sending...';
         btn.disabled = true;
 
-        // Standard FormData captures all input fields with 'name' attributes
+        // Convert FormData to URLSearchParams to send it as application/x-www-form-urlencoded.
+        // This ensures Google Apps Script can read variables via e.parameter.
         const formData = new FormData(mainContactForm);
+        const searchParams = new URLSearchParams(formData);
 
         if (APP_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
             console.warn('Google Apps Script URL is not set. Simulating success...');
@@ -355,7 +357,10 @@ if (mainContactForm) {
         // Send POST request to the Google Web App
         fetch(APP_SCRIPT_URL, {
             method: 'POST',
-            body: formData
+            body: searchParams,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
         })
             .then(response => {
                 if (!response.ok) {
