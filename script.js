@@ -348,8 +348,10 @@ if (mainContactForm) {
         if (APP_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
             console.warn('Google Apps Script URL is not set. Simulating success...');
             setTimeout(() => {
-                mainContactForm.classList.add('hidden');
                 formSuccess.classList.remove('hidden');
+                mainContactForm.reset();
+                btn.textContent = originalText;
+                btn.disabled = false;
             }, 1000);
             return;
         }
@@ -370,8 +372,8 @@ if (mainContactForm) {
             })
             .then(data => {
                 if (data.result === 'success') {
-                    mainContactForm.classList.add('hidden');
                     formSuccess.classList.remove('hidden');
+                    mainContactForm.reset();
                 } else {
                     throw new Error(data.error || 'Server returned an error');
                 }
@@ -379,8 +381,17 @@ if (mainContactForm) {
             .catch(error => {
                 console.error('Error submitting form:', error);
                 alert('There was an error sending your message. Please try again or email us directly at gexora.official@gmail.com.');
+            })
+            .finally(() => {
                 btn.textContent = originalText;
                 btn.disabled = false;
             });
     });
+
+    const closeSuccessBtn = document.getElementById('close-success-btn');
+    if (closeSuccessBtn) {
+        closeSuccessBtn.addEventListener('click', () => {
+            formSuccess.classList.add('hidden');
+        });
+    }
 }

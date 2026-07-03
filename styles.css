@@ -733,22 +733,40 @@ h4 {
 .form-success {
     position: absolute;
     inset: 0;
-    background: var(--clr-bg-secondary);
+    background: rgba(13, 32, 58, 0.96);
+    backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
     z-index: 10;
+    padding: var(--spacing-md);
+    border-radius: 12px;
+    animation: successFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes successFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0px);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(10px);
+    }
 }
 
 .form-success h3 {
-    margin: 1rem 0 0.5rem;
+    margin: 0.5rem 0;
     color: var(--clr-text-primary);
+    font-size: 1.75rem;
 }
 
 .form-success p {
     color: var(--clr-text-muted);
+    font-size: 1rem;
 }
 
 .hidden {
