@@ -328,19 +328,54 @@ chatForm.addEventListener('submit', function (e) {
 const mainContactForm = document.getElementById('contact-form');
 const formSuccess = document.querySelector('.form-success');
 
+// TODO: Replace this URL with your actual deployed Google Apps Script Web App URL
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwC8THShpkatiV0rr2D1BcoSMRVUGycpHJ1qOfkd9iJWxT9eGTsNIRMCQ2JBC4Cwvllvw/exec';
+
 if (mainContactForm) {
     mainContactForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        // Simulate API request or processing
         const btn = mainContactForm.querySelector('button[type="submit"]');
         const originalText = btn.textContent;
         btn.textContent = 'Sending...';
         btn.disabled = true;
 
-        setTimeout(() => {
-            mainContactForm.classList.add('hidden');
-            formSuccess.classList.remove('hidden');
-        }, 1500);
+        // Standard FormData captures all input fields with 'name' attributes
+        const formData = new FormData(mainContactForm);
+
+        if (APP_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+            console.warn('Google Apps Script URL is not set. Simulating success...');
+            setTimeout(() => {
+                mainContactForm.classList.add('hidden');
+                formSuccess.classList.remove('hidden');
+            }, 1000);
+            return;
+        }
+
+        // Send POST request to the Google Web App
+        fetch(APP_SCRIPT_URL, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.result === 'success') {
+                    mainContactForm.classList.add('hidden');
+                    formSuccess.classList.remove('hidden');
+                } else {
+                    throw new Error(data.error || 'Server returned an error');
+                }
+            })
+            .catch(error => {
+                console.error('Error submitting form:', error);
+                alert('There was an error sending your message. Please try again or email us directly at gexora.official@gmail.com.');
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
     });
 }
