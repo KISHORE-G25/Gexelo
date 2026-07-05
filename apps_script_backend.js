@@ -68,11 +68,12 @@ function doPost(e) {
     var timestamp = new Date();
     var name = parameter.name || "";
     var email = parameter.email || "";
+    var phone = parameter.phone || "";
     var service = parameter.service || "";
     var details = parameter.details || "";
 
-    // Append to sheet
-    sheet.appendRow([timestamp, name, email, service, details]);
+    // Append to sheet (Make sure your Google Sheet has columns: Timestamp, Name, Email, Phone, Service, Details)
+    sheet.appendRow([timestamp, name, email, phone, service, details]);
 
     // Return success response
     return ContentService.createTextOutput(JSON.stringify({

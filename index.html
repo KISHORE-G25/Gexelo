@@ -4,31 +4,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gexora | Build. Scale. Convert.</title>
+    <title>Gexelo | Engineering Digital Growth</title>
     <meta name="description"
-        content="Gexora builds high-performance websites and ecommerce systems that turn traffic into customers and revenue.">
+        content="Gexelo builds premium high-performance websites and digital growth systems that convert traffic into predictable revenue.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
+    <!-- Mobile Menu Drawer -->
+    <div class="mobile-menu-drawer" id="mobile-menu">
+        <div class="drawer-header">
+            <a href="#" class="logo">
+                <img src="./assets/logo.png" alt="Gexelo Logo" class="logo-image">
+                <span class="logo-text">Gexelo</span>
+            </a>
+            <button class="menu-close-btn" id="menu-close" aria-label="Close Menu">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div class="drawer-links">
+            <a href="#services" class="drawer-link">Services</a>
+            <a href="#process" class="drawer-link">Process</a>
+            <a href="#portfolio" class="drawer-link">Work</a>
+            <a href="#testimonials" class="drawer-link">Reviews</a>
+            <a href="#faq" class="drawer-link">FAQ</a>
+            <a href="#contact" class="btn btn-primary drawer-btn">Get Started</a>
+        </div>
+    </div>
+
     <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="#" class="logo">
-                <img src="./assets/logo.png" alt="Gexora Logo" class="logo-image">
-                <span class="logo-text">Gexora</span>
+                <img src="./assets/logo.png" alt="Gexelo Logo" class="logo-image">
+                <span class="logo-text">Gexelo</span>
             </a>
             <div class="nav-links">
                 <a href="#services">Services</a>
                 <a href="#process">Process</a>
                 <a href="#portfolio">Work</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#faq">FAQ</a>
             </div>
-            <a href="#contact" class="btn btn-primary">Get Your Website</a>
+            <div class="nav-actions-wrapper">
+                <a href="#contact" class="btn btn-primary nav-btn-desktop">Get Website</a>
+                <button class="menu-toggle-btn" id="menu-toggle" aria-label="Toggle Menu">
+                    <i data-lucide="menu" id="menu-icon"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -38,7 +66,7 @@
             <div class="hero-content fade-in">
                 <div class="badge">Build. Scale. Convert.</div>
                 <h1>Build Websites That Actually Bring Customers</h1>
-                <p>Gexora builds high-converting digital systems designed to turn visitors into paying customers.</p>
+                <p>Gexelo builds high-converting digital systems designed to turn visitors into paying customers.</p>
                 <div class="hero-actions">
                     <a href="#contact" class="btn btn-primary btn-lg">Get Your Website</a>
                     <a href="#portfolio" class="btn btn-secondary btn-lg">View Work</a>
@@ -267,6 +295,150 @@
         </div>
     </section>
 
+    <!-- Testimonials Section -->
+    <section class="testimonials section-padding bg-secondary" id="testimonials">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">What Our Clients Say</h2>
+                <p class="section-subtitle">Read how Gexelo helps businesses engineering digital growth.</p>
+            </div>
+            <div class="grid-3 testimonials-grid">
+                <div class="testimonial-card fade-in delay-1">
+                    <div class="rating">
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                    </div>
+                    <p class="testimonial-text">"Gexelo overhauled our outdated SaaS product site. In just 60 days, our
+                        conversion rate jumped from 1.2% to 3.4%. The team's strategy is absolutely elite."</p>
+                    <div class="client-info">
+                        <div class="client-avatar">SR</div>
+                        <div>
+                            <h4>Sarah Jenkins</h4>
+                            <p>Director of Product, CloudScale</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in delay-2">
+                    <div class="rating">
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                    </div>
+                    <p class="testimonial-text">"Their custom ecommerce layout has been a game changer for us. Average
+                        order value increased by 28% and checkout friction is completely gone."</p>
+                    <div class="client-info">
+                        <div class="client-avatar">MD</div>
+                        <div>
+                            <h4>Marcus Chen</h4>
+                            <p>Founder, Thread&Style</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card fade-in delay-3">
+                    <div class="rating">
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                        <i data-lucide="star" class="fill-gold"></i>
+                    </div>
+                    <p class="testimonial-text">"I needed a high-end portfolio site to attract tier-1 consulting
+                        contracts. Gexelo delivered a gorgeous, blazing-fast site that paid for itself in a week."</p>
+                    <div class="client-info">
+                        <div class="client-avatar">AH</div>
+                        <div>
+                            <h4>Amanda Ross</h4>
+                            <p>Independent Consultant</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq section-padding" id="faq">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <p class="section-subtitle">Everything you need to know about our process and capabilities.</p>
+            </div>
+            <div class="faq-accordion-wrapper fade-in delay-1">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>What services does Gexelo specialize in?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>We specialize in engineering digital growth through high-performance website systems,
+                                custom ecommerce solutions, professional resume writing, premium portfolios, and
+                                conversion optimization. All our systems are designed to maximize lead capture and
+                                sales.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How long does it take to deploy a custom website?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>A standard custom website system takes between 3 to 6 weeks from strategy to deployment.
+                                Larger ecommerce systems and complex data dashboards take 6 to 10 weeks depending on
+                                scope, inventory size, and custom integrations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Can you redesign my existing portfolio or resume?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Yes, we build elite personal portfolios and resume sites. We optimize the copywriting for
+                                visual conversion, structure the case studies to highlight value metrics, and ensure
+                                your digital presence stands out to premium prospective clients or employers.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Do you provide hosting and post-launch maintenance?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Absolutely. We provide high-speed cloud hosting setups, domain configuration, technical
+                                SEO tuning, security monitoring, and recurring optimization updates to ensure your
+                                website remains fast and secure.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>How does your AI Partner (Xelo) work?</span>
+                        <i data-lucide="chevron-down" class="faq-icon"></i>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>Xelo is our proprietary interactive helper. It qualifies client requests, offers strategy
+                                tips based on your current traffic levels, and guides you to the right service. For
+                                urgent support, you can chat with Xelo 24/7 or use the form to request human review.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact Section -->
     <section class="contact section-padding" id="contact">
         <div class="container">
@@ -309,12 +481,18 @@
                             <input type="email" id="email" name="email" required placeholder="john@company.com">
                         </div>
                         <div class="form-group">
+                            <label for="phone">Mobile Number</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
                             <label for="service">Interested Service</label>
                             <select id="service" name="service" required>
                                 <option value="" disabled selected>Select a Service</option>
                                 <option value="website">Website System</option>
                                 <option value="ecommerce">Ecommerce System</option>
                                 <option value="optimization">Growth Optimization</option>
+                                <option value="resume">Resume Writing</option>
+                                <option value="portfolio">Portfolio Design</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -341,15 +519,17 @@
         <div class="container footer-grid">
             <div class="footer-brand">
                 <a href="#" class="logo">
-                    <img src="./assets/logo.png" alt="Gexora Logo" class="logo-image">
-                    <span class="logo-text">Gexora</span>
+                    <img src="./assets/logo.png" alt="Gexelo Logo" class="logo-image">
+                    <span class="logo-text">Gexelo</span>
                 </a>
-                <p>Build. Scale. Convert.</p>
+                <p>Engineering Digital Growth.</p>
             </div>
             <div class="footer-links">
                 <a href="#services">Services</a>
                 <a href="#process">Process</a>
                 <a href="#portfolio">Work</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#faq">FAQ</a>
             </div>
             <div class="footer-contact">
                 <p>gexora.official@gmail.com</p>
@@ -360,7 +540,7 @@
             </div>
         </div>
         <div class="container copyright">
-            <p>&copy; <span id="year"></span> Gexora Digital Systems. All rights reserved.</p>
+            <p>&copy; <span id="year"></span> Gexelo Digital Systems. All rights reserved.</p>
         </div>
     </footer>
 
@@ -375,12 +555,13 @@
         <div id="chat-window" class="chat-window hidden">
             <div class="chat-header">
                 <div class="chat-avatar-container">
-                    <img src="./assets/xora_avatar.png" alt="Xora Avatar" class="chat-avatar">
+                    <img src="./assets/logo.png" alt="Xelo Avatar" class="chat-avatar"
+                        style="background:#FFFFFF; object-fit:contain; padding:2px;">
                     <span class="online-indicator"></span>
                 </div>
                 <div class="chat-title">
-                    <h4>Xora</h4>
-                    <span class="chat-subtitle">Gexora AI Assistant</span>
+                    <h4>Xelo</h4>
+                    <span class="chat-subtitle">Gexelo AI Partner</span>
                 </div>
                 <button id="chat-close" class="chat-close-btn" aria-label="Close Chat">
                     <i data-lucide="x"></i>
@@ -391,7 +572,7 @@
             </div>
             <div class="chat-footer">
                 <form id="chat-form">
-                    <input type="text" id="chat-input" placeholder="Reply to Xora..." autocomplete="off" required />
+                    <input type="text" id="chat-input" placeholder="Reply to Xelo..." autocomplete="off" required />
                     <button type="submit" class="chat-send-btn" aria-label="Send">
                         <i data-lucide="send"></i>
                     </button>

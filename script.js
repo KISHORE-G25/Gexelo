@@ -8,10 +8,10 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.5)';
+        navbar.style.background = 'rgba(15, 23, 42, 0.96)';
+        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
     } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.8)';
+        navbar.style.background = 'rgba(11, 15, 25, 0.8)';
         navbar.style.boxShadow = 'none';
     }
 });
@@ -61,15 +61,15 @@ class ConversationManager {
         if (this.hasInitialized) return;
         this.hasInitialized = true;
         this.simulateTyping(() => {
-            this.appendMessage("Hey 👋 I'm Xora. I build systems that turn visitors into customers.", 'bot');
+            this.appendMessage("Hey 👋 I'm Xelo. I build high-performance systems, resume sites, portfolios, and online storefronts that turn visitors into customers.", 'bot');
 
             setTimeout(() => {
                 this.simulateTyping(() => {
                     this.appendMessage("To give you the right strategy, do you already have a website or are you starting from scratch?", 'bot');
                     this.appendHTML(`
                         <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                            <button class="chat-action-btn" onclick="xora.handleAction('WEBSITE', 'EXISTING')">Existing Website</button>
-                            <button class="chat-action-btn" onclick="xora.handleAction('WEBSITE', 'FRESH')">Starting Fresh</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('WEBSITE', 'EXISTING')">Existing Website</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('WEBSITE', 'FRESH')">Starting Fresh</button>
                         </div>
                     `, 'bot');
                 });
@@ -136,18 +136,19 @@ class ConversationManager {
                     this.appendMessage("Got it. Are you currently getting consistent traffic to it?", 'bot');
                     this.appendHTML(`
                         <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                            <button class="chat-action-btn" onclick="xora.handleAction('TRAFFIC_BIZ', 'TRAFFIC_YES')">Yes, steady traffic</button>
-                            <button class="chat-action-btn" onclick="xora.handleAction('TRAFFIC_BIZ', 'TRAFFIC_NO')">Not much yet</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'TRAFFIC_YES')">Yes, steady traffic</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'TRAFFIC_NO')">Not much yet</button>
                         </div>
                     `, 'bot');
                 });
             } else {
                 this.simulateTyping(() => {
-                    this.appendMessage("Understood. What kind of business are we building this for?", 'bot');
+                    this.appendMessage("Understood. What kind of project are we starting?", 'bot');
                     this.appendHTML(`
                         <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                            <button class="chat-action-btn" onclick="xora.handleAction('TRAFFIC_BIZ', 'BIZ_SERVICE')">Service / B2B</button>
-                            <button class="chat-action-btn" onclick="xora.handleAction('TRAFFIC_BIZ', 'BIZ_ECOM')">Ecommerce</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_SERVICE')">Service / B2B Website</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_PORTFOLIO')">Portfolio / Resume Site</button>
+                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_ECOM')">Ecommerce Store</button>
                         </div>
                     `, 'bot');
                 });
@@ -162,10 +163,13 @@ class ConversationManager {
             } else if (actionType === 'TRAFFIC_NO') {
                 this.appendMessage(userText || "Not much yet", 'user');
             } else if (actionType === 'BIZ_SERVICE') {
-                this.appendMessage(userText || "Service / B2B", 'user');
+                this.appendMessage(userText || "Service / B2B Website", 'user');
+                this.leadScore += 2;
+            } else if (actionType === 'BIZ_PORTFOLIO') {
+                this.appendMessage(userText || "Portfolio / Resume Site", 'user');
                 this.leadScore += 2;
             } else if (actionType === 'BIZ_ECOM') {
-                this.appendMessage(userText || "Ecommerce", 'user');
+                this.appendMessage(userText || "Ecommerce Store", 'user');
                 this.leadScore += 2;
             } else if (actionType === 'TEXT_FALLBACK') {
                 // assume text input implies intent
@@ -177,9 +181,9 @@ class ConversationManager {
                 this.appendMessage("What's the primary bottleneck right now? Leads, sales, or pure performance?", 'bot');
                 this.appendHTML(`
                     <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                        <button class="chat-action-btn" onclick="xora.handleAction('GOAL', 'LEADS')">More Leads</button>
-                        <button class="chat-action-btn" onclick="xora.handleAction('GOAL', 'SALES')">More Sales</button>
-                        <button class="chat-action-btn" onclick="xora.handleAction('GOAL', 'BASIC')">Speed / Setup</button>
+                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'LEADS')">More Leads</button>
+                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'SALES')">More Sales</button>
+                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'BASIC')">Speed / Setup</button>
                     </div>
                 `, 'bot');
             });
@@ -201,8 +205,8 @@ class ConversationManager {
                 this.appendMessage("Are you looking for a basic setup to get by, or a premium growth-focused system to scale?", 'bot');
                 this.appendHTML(`
                     <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                        <button class="chat-action-btn" onclick="xora.handleAction('MINDSET', 'GROWTH')">Growth-focused Scale</button>
-                        <button class="chat-action-btn" onclick="xora.handleAction('MINDSET', 'BASIC')">Just a basic setup</button>
+                        <button class="chat-action-btn" onclick="xelo.handleAction('MINDSET', 'GROWTH')">Growth-focused Scale</button>
+                        <button class="chat-action-btn" onclick="xelo.handleAction('MINDSET', 'BASIC')">Just a basic setup</button>
                     </div>
                 `, 'bot');
             });
@@ -300,12 +304,12 @@ class ConversationManager {
     }
 }
 
-const xora = new ConversationManager();
+const xelo = new ConversationManager();
 
 function handleToggleChat() {
     chatWindow.classList.toggle('hidden');
     if (!chatWindow.classList.contains('hidden')) {
-        xora.init();
+        xelo.init();
         if (!window.matchMedia("(max-width: 768px)").matches) {
             chatInput.focus();
         }
@@ -319,7 +323,7 @@ chatForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const message = chatInput.value.trim();
     chatInput.value = '';
-    xora.handleInput(message);
+    xelo.handleInput(message);
 });
 
 // =========================================================================
@@ -395,3 +399,62 @@ if (mainContactForm) {
         });
     }
 }
+
+// =========================================================================
+// FAQ Accordion Interactivity
+// =========================================================================
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+        const item = question.parentElement;
+        const answer = item.querySelector('.faq-answer');
+        const isActive = item.classList.contains('active');
+
+        // Close other items
+        document.querySelectorAll('.faq-item').forEach(otherItem => {
+            if (otherItem !== item && otherItem.classList.contains('active')) {
+                otherItem.classList.remove('active');
+                otherItem.querySelector('.faq-answer').style.maxHeight = '0px';
+            }
+        });
+
+        // Toggle current item
+        if (isActive) {
+            item.classList.remove('active');
+            answer.style.maxHeight = '0px';
+        } else {
+            item.classList.add('active');
+            answer.style.maxHeight = answer.scrollHeight + 'px';
+        }
+    });
+});
+
+// =========================================================================
+// Mobile Menu Navigation Drawer
+// =========================================================================
+const menuToggle = document.getElementById('menu-toggle');
+const menuClose = document.getElementById('menu-close');
+const mobileMenu = document.getElementById('mobile-menu');
+const drawerLinks = document.querySelectorAll('.drawer-link');
+
+if (menuToggle && mobileMenu) {
+    menuToggle.addEventListener('click', () => {
+        mobileMenu.classList.add('active');
+    });
+}
+
+if (menuClose && mobileMenu) {
+    menuClose.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+    });
+}
+
+// Close drawer when clicking a link
+drawerLinks.forEach(link => {
+    link.addEventListener('click', () => {
+        if (mobileMenu) {
+            mobileMenu.classList.remove('active');
+        }
+    });
+});
