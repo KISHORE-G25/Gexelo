@@ -149,7 +149,59 @@ h4 {
 
 .section-padding {
     padding: var(--spacing-xl) 0;
+    position: relative;
+    overflow: hidden;
 }
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: var(--clr-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(16, 185, 129, 0.3);
+    border-radius: 5px;
+    border: 2px solid var(--clr-bg-primary);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--clr-accent-teal);
+}
+
+/* Glow Blobs background depth */
+.glow-blob {
+    position: absolute;
+    width: 450px;
+    height: 450px;
+    border-radius: 50%;
+    filter: blur(140px);
+    opacity: 0.12;
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+    animation: float-blob 12s ease-in-out infinite alternate;
+}
+.blob-teal {
+    background: radial-gradient(circle, var(--clr-accent-teal) 0%, transparent 70%);
+}
+.blob-cyan {
+    background: radial-gradient(circle, var(--clr-accent-cyan) 0%, transparent 70%);
+}
+.blob-gold {
+    background: radial-gradient(circle, var(--clr-accent-gold) 0%, transparent 70%);
+}
+
+@keyframes float-blob {
+    0% {
+        transform: translate(0, 0) scale(1);
+    }
+    100% {
+        transform: translate(40px, 30px) scale(1.15);
+    }
+}
+
 
 .bg-secondary {
     background-color: var(--clr-bg-secondary);
@@ -261,15 +313,29 @@ h4 {
 /* Navbar */
 .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 1.5rem;
+    left: 5%;
+    right: 5%;
+    width: 90%;
+    margin: 0 auto;
+    border-radius: 16px;
     z-index: 100;
-    background: rgba(7, 19, 36, 0.8);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--clr-border);
+    background: rgba(11, 15, 25, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
     transition: var(--transition-base);
 }
+
+.navbar.scrolled {
+    top: 0.75rem;
+    background: rgba(11, 15, 25, 0.9);
+    border-color: rgba(16, 185, 129, 0.25);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), 
+                0 20px 45px -10px rgba(0, 0, 0, 0.6),
+                0 0 15px rgba(16, 185, 129, 0.08);
+}
+
 
 .nav-container {
     display: flex;
@@ -414,18 +480,22 @@ h4 {
 /* Problem Section */
 .problem-card {
     padding: var(--spacing-md);
-    background: rgba(30, 41, 59, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
     transition: var(--transition-base);
 }
 
 .problem-card:hover {
-    border-color: rgba(16, 185, 129, 0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), 0 0 20px 0 rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
+                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
+                0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
+
 
 .icon-box {
     width: 52px;
@@ -456,23 +526,27 @@ h4 {
 
 .funnel-step {
     padding: var(--spacing-md);
-    background: rgba(30, 41, 59, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     text-align: center;
     flex: 1;
     min-width: 150px;
     max-width: 200px;
     transition: var(--transition-base);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 .funnel-step:hover {
     border-color: var(--clr-accent-teal);
-    background: rgba(16, 185, 129, 0.08);
-    transform: translateY(-4px);
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.3), 0 0 15px 0 rgba(16, 185, 129, 0.05);
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 
+                0 20px 40px -15px rgba(0, 0, 0, 0.6), 
+                0 0 20px 0 rgba(16, 185, 129, 0.15);
 }
+
 
 .funnel-step .step-icon {
     font-size: 2rem;
@@ -516,13 +590,22 @@ h4 {
 /* Services Section */
 .service-card {
     padding: var(--spacing-md);
-    background: rgba(30, 41, 59, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
     transition: var(--transition-base);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+}
+
+.service-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(16, 185, 129, 0.4);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
+                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
+                0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
 
 .service-card::before {
@@ -536,11 +619,6 @@ h4 {
     transition: var(--transition-base);
 }
 
-.service-card:hover {
-    transform: translateY(-6px);
-    border-color: rgba(16, 185, 129, 0.3);
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), 0 0 20px 0 rgba(16, 185, 129, 0.1);
-}
 
 .service-card:hover::before {
     height: 100%;
@@ -669,19 +747,23 @@ h4 {
 
 /* Portfolio Section */
 .portfolio-card {
-    background: rgba(30, 41, 59, 0.35);
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    border-radius: 16px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     transition: var(--transition-base);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
 }
 
 .portfolio-card:hover {
-    border-color: rgba(16, 185, 129, 0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), 0 0 20px 0 rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
+                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
+                0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
+
 
 .portfolio-image {
     position: relative;
@@ -1336,10 +1418,11 @@ h4 {
 
 .testimonial-card {
     padding: var(--spacing-md);
-    background: rgba(30, 41, 59, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    backdrop-filter: blur(16px);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
     transition: var(--transition-base);
     display: flex;
     flex-direction: column;
@@ -1347,10 +1430,13 @@ h4 {
 }
 
 .testimonial-card:hover {
-    border-color: rgba(16, 185, 129, 0.3);
-    transform: translateY(-6px);
-    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.4), 0 0 20px 0 rgba(16, 185, 129, 0.1);
+    border-color: rgba(16, 185, 129, 0.4);
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
+                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
+                0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
+
 
 .rating {
     display: flex;
@@ -1611,7 +1697,23 @@ h4 {
 }
 
 @media (max-width: 768px) {
+    .navbar {
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        border-radius: 0;
+        border-top: none;
+        border-left: none;
+        border-right: none;
+    }
+
+    .navbar.scrolled {
+        top: 0;
+    }
+
     .hero {
+
         padding-top: 120px;
         padding-bottom: var(--spacing-lg);
     }

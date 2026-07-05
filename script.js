@@ -8,11 +8,9 @@ document.getElementById('year').textContent = new Date().getFullYear();
 const navbar = document.querySelector('.navbar');
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        navbar.style.background = 'rgba(15, 23, 42, 0.96)';
-        navbar.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.4)';
+        navbar.classList.add('scrolled');
     } else {
-        navbar.style.background = 'rgba(11, 15, 25, 0.8)';
-        navbar.style.boxShadow = 'none';
+        navbar.classList.remove('scrolled');
     }
 });
 
