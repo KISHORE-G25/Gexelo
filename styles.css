@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
+
 /* =========================================================================
    Gexelo - Premium SaaS/Fintech Agency CSS
    ========================================================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
     /* Color System - Premium Gexelo Palette */
@@ -158,14 +159,17 @@ h4 {
     width: 10px;
     height: 10px;
 }
+
 ::-webkit-scrollbar-track {
     background: var(--clr-bg-primary);
 }
+
 ::-webkit-scrollbar-thumb {
     background: rgba(16, 185, 129, 0.3);
     border-radius: 5px;
     border: 2px solid var(--clr-bg-primary);
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: var(--clr-accent-teal);
 }
@@ -183,12 +187,15 @@ h4 {
     mix-blend-mode: screen;
     animation: float-blob 12s ease-in-out infinite alternate;
 }
+
 .blob-teal {
     background: radial-gradient(circle, var(--clr-accent-teal) 0%, transparent 70%);
 }
+
 .blob-cyan {
     background: radial-gradient(circle, var(--clr-accent-cyan) 0%, transparent 70%);
 }
+
 .blob-gold {
     background: radial-gradient(circle, var(--clr-accent-gold) 0%, transparent 70%);
 }
@@ -197,6 +204,7 @@ h4 {
     0% {
         transform: translate(0, 0) scale(1);
     }
+
     100% {
         transform: translate(40px, 30px) scale(1.15);
     }
@@ -211,6 +219,26 @@ h4 {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: var(--spacing-lg);
+}
+
+/* Specific grids for 4-column capabilities and work layout */
+@media (min-width: 1200px) {
+    .capabilities-grid, .portfolio-grid {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: var(--spacing-sm) !important;
+    }
+}
+@media (max-width: 1199px) and (min-width: 769px) {
+    .capabilities-grid, .portfolio-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: var(--spacing-md) !important;
+    }
+}
+@media (max-width: 768px) {
+    .capabilities-grid, .portfolio-grid {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-md) !important;
+    }
 }
 
 .section-header {
@@ -320,20 +348,23 @@ h4 {
     margin: 0 auto;
     border-radius: 16px;
     z-index: 100;
-    background: rgba(11, 15, 25, 0.7);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    background: rgba(11, 15, 25, 0.45); /* Increased transparency */
+    -webkit-backdrop-filter: blur(28px); /* Increased blur for stronger glass effect */
+    backdrop-filter: blur(28px);
+    border: 1px solid rgba(255, 255, 255, 0.12); /* Sharper white glass edge */
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), 
+                0 20px 40px -10px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(255, 255, 255, 0.02);
     transition: var(--transition-base);
 }
 
 .navbar.scrolled {
     top: 0.75rem;
-    background: rgba(11, 15, 25, 0.9);
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2), 
-                0 20px 45px -10px rgba(0, 0, 0, 0.6),
-                0 0 15px rgba(16, 185, 129, 0.08);
+    background: rgba(11, 15, 25, 0.65); /* Keeps transparency when scrolled */
+    border-color: rgba(16, 185, 129, 0.35); /* Elegant glowing active teal border */
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+        0 20px 45px -10px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(16, 185, 129, 0.15);
 }
 
 
@@ -385,6 +416,17 @@ h4 {
         radial-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px);
     background-size: 100% 100%, 28px 28px;
     overflow: hidden;
+    z-index: 1;
+}
+
+#hero-3d-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
 }
 
 .hero-grid {
@@ -448,13 +490,33 @@ h4 {
     gap: 1rem;
 }
 
+.hero-visual {
+    animation: float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.image-wrapper {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.image-wrapper.reset-tilt {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.image-wrapper img {
+    transform: translateZ(20px);
+    transition: transform 0.15s ease-out;
+}
+
 .glow-effect {
     position: relative;
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid rgba(16, 185, 129, 0.15);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(16, 185, 129, 0.1);
-    animation: float 6s ease-in-out infinite;
 }
 
 .glow-effect::after {
@@ -483,6 +545,7 @@ h4 {
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
     transition: var(--transition-base);
@@ -491,9 +554,9 @@ h4 {
 .problem-card:hover {
     border-color: rgba(16, 185, 129, 0.4);
     transform: translateY(-8px) scale(1.01);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
-                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
-                0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+        0 25px 50px -15px rgba(0, 0, 0, 0.7),
+        0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
 
 
@@ -534,6 +597,7 @@ h4 {
     min-width: 150px;
     max-width: 200px;
     transition: var(--transition-base);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 30px -10px rgba(0, 0, 0, 0.5);
 }
@@ -542,9 +606,9 @@ h4 {
     border-color: var(--clr-accent-teal);
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
     transform: translateY(-6px) scale(1.02);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25), 
-                0 20px 40px -15px rgba(0, 0, 0, 0.6), 
-                0 0 20px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+        0 20px 40px -15px rgba(0, 0, 0, 0.6),
+        0 0 20px 0 rgba(16, 185, 129, 0.15);
 }
 
 
@@ -593,19 +657,33 @@ h4 {
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
-    transition: var(--transition-base);
     position: relative;
     overflow: hidden;
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.service-card.reset-tilt {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .service-card:hover {
-    transform: translateY(-8px) scale(1.01);
     border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
-                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
-                0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+        0 25px 50px -15px rgba(0, 0, 0, 0.7),
+        0 0 25px 0 rgba(16, 185, 129, 0.15);
+}
+
+.service-card .card-header,
+.service-card p,
+.service-card .service-features {
+    transform: translateZ(25px);
+    transition: transform 0.15s ease-out;
 }
 
 .service-card::before {
@@ -618,7 +696,6 @@ h4 {
     background: linear-gradient(to bottom, var(--clr-accent-teal), var(--clr-accent-cyan));
     transition: var(--transition-base);
 }
-
 
 .service-card:hover::before {
     height: 100%;
@@ -751,17 +828,53 @@ h4 {
     border-radius: 16px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.08);
-    transition: var(--transition-base);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.portfolio-card.reset-tilt {
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .portfolio-card:hover {
     border-color: rgba(16, 185, 129, 0.4);
-    transform: translateY(-8px) scale(1.01);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
-                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
-                0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+        0 25px 50px -15px rgba(0, 0, 0, 0.7),
+        0 0 25px 0 rgba(16, 185, 129, 0.15);
+}
+
+.portfolio-card .portfolio-image,
+.portfolio-card .portfolio-info {
+    transform: translateZ(25px);
+    transition: transform 0.15s ease-out;
+}
+
+.portfolio-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.8rem;
+    color: var(--clr-text-muted);
+}
+
+.portfolio-stats span {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.portfolio-stats i {
+    width: 14px;
+    height: 14px;
+    color: var(--clr-accent-teal);
 }
 
 
@@ -786,6 +899,7 @@ h4 {
     position: absolute;
     inset: 0;
     background: rgba(11, 15, 25, 0.75);
+    -webkit-backdrop-filter: blur(4px);
     backdrop-filter: blur(4px);
     display: flex;
     align-items: center;
@@ -898,6 +1012,7 @@ h4 {
     position: absolute;
     inset: 0;
     background: rgba(13, 32, 58, 0.96);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     display: flex;
     flex-direction: column;
@@ -913,11 +1028,13 @@ h4 {
 @keyframes successFadeIn {
     from {
         opacity: 0;
+        -webkit-backdrop-filter: blur(0px);
         backdrop-filter: blur(0px);
     }
 
     to {
         opacity: 1;
+        -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
     }
 }
@@ -1096,6 +1213,7 @@ h4 {
     flex-direction: column;
     overflow: hidden;
     transform-origin: bottom right;
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
 }
@@ -1421,6 +1539,7 @@ h4 {
     background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
     transition: var(--transition-base);
@@ -1432,9 +1551,9 @@ h4 {
 .testimonial-card:hover {
     border-color: rgba(16, 185, 129, 0.4);
     transform: translateY(-8px) scale(1.01);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3), 
-                0 25px 50px -15px rgba(0, 0, 0, 0.7), 
-                0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+        0 25px 50px -15px rgba(0, 0, 0, 0.7),
+        0 0 25px 0 rgba(16, 185, 129, 0.15);
 }
 
 
@@ -1509,6 +1628,7 @@ h4 {
     margin-bottom: 1rem;
     overflow: hidden;
     transition: all var(--transition-base);
+    -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 
@@ -1597,6 +1717,7 @@ h4 {
     width: 300px;
     height: 100vh;
     background: rgba(11, 15, 25, 0.98);
+    -webkit-backdrop-filter: blur(20px);
     backdrop-filter: blur(20px);
     border-left: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 2000;

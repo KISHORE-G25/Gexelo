@@ -28,6 +28,7 @@
             </button>
         </div>
         <div class="drawer-links">
+            <a href="#home" class="drawer-link">Home</a>
             <a href="#services" class="drawer-link">Services</a>
             <a href="#process" class="drawer-link">Process</a>
             <a href="#portfolio" class="drawer-link">Work</a>
@@ -45,6 +46,7 @@
                 <span class="logo-text">Gexelo</span>
             </a>
             <div class="nav-links">
+                <a href="#home">Home</a>
                 <a href="#services">Services</a>
                 <a href="#process">Process</a>
                 <a href="#portfolio">Work</a>
@@ -61,7 +63,9 @@
     </nav>
 
     <!-- Hero Section -->
-    <header class="hero">
+    <header class="hero" id="home">
+        <!-- 3D Interactive Canvas Background -->
+        <canvas id="hero-3d-canvas"></canvas>
         <div class="container hero-grid">
             <div class="hero-content fade-in">
                 <div class="badge">Build. Scale. Convert.</div>
@@ -74,7 +78,7 @@
             </div>
             <div class="hero-visual fade-in delay-2">
                 <div class="image-wrapper glow-effect">
-                    <img src="./assets/hero_dashboard.png" alt="Analytics Dashboard Mockup">
+                    <img src="./assets/hero_dashboard.png" alt="Professional Hero Dashboard">
                 </div>
             </div>
         </div>
@@ -152,7 +156,7 @@
                 <h2 class="section-title">Our Capabilities</h2>
                 <p class="section-subtitle">Engineered for performance and scale.</p>
             </div>
-            <div class="grid-3">
+            <div class="grid-3 capabilities-grid">
                 <div class="service-card fade-in delay-1">
                     <div class="card-header">
                         <i data-lucide="layers"></i>
@@ -187,6 +191,18 @@
                         <li><i data-lucide="check"></i> Advanced Analytics</li>
                         <li><i data-lucide="check"></i> Heatmap Tracking</li>
                         <li><i data-lucide="check"></i> Continuous Iteration</li>
+                    </ul>
+                </div>
+                <div class="service-card fade-in delay-4">
+                    <div class="card-header">
+                        <i data-lucide="file-text"></i>
+                        <h3>Portfolio & Resume Writing</h3>
+                    </div>
+                    <p>Elite personal branding systems designed to secure premium consulting roles and high-tier offers.</p>
+                    <ul class="service-features">
+                        <li><i data-lucide="check"></i> Executive Resume Systems</li>
+                        <li><i data-lucide="check"></i> Premium Portfolio Design</li>
+                        <li><i data-lucide="check"></i> Conversion-Optimized Copy</li>
                     </ul>
                 </div>
             </div>
@@ -260,38 +276,66 @@
             <div class="grid-3 portfolio-grid">
                 <div class="portfolio-card fade-in delay-1">
                     <div class="portfolio-image">
-                        <img src="./assets/portfolio_business.png" alt="Business Website">
+                        <img src="./assets/hero_dashboard.png" alt="Professional Hero Dashboard">
                         <div class="overlay">
-                            <a href="#" class="btn btn-primary btn-sm">View Case Study</a>
+                            <a href="#contact" class="btn btn-primary btn-sm">Enquire System</a>
                         </div>
                     </div>
                     <div class="portfolio-info">
-                        <h4>B2B Service Platform</h4>
-                        <p>Business Website</p>
+                        <h4>Professional Hero Dashboard</h4>
+                        <p>Fintech SaaS Command Center</p>
+                        <div class="portfolio-stats">
+                            <span><i data-lucide="trending-up"></i> +145% Leads</span>
+                            <span><i data-lucide="zap"></i> 0.6s Load</span>
+                        </div>
                     </div>
                 </div>
                 <div class="portfolio-card fade-in delay-2">
                     <div class="portfolio-image">
-                        <img src="./assets/portfolio_ecommerce.png" alt="Ecommerce Store">
+                        <img src="./assets/portfolio_business.png" alt="Portfolio Business Platform">
                         <div class="overlay">
-                            <a href="#" class="btn btn-primary btn-sm">View Case Study</a>
+                            <a href="#contact" class="btn btn-primary btn-sm">Enquire System</a>
                         </div>
                     </div>
                     <div class="portfolio-info">
-                        <h4>Direct-to-Consumer Store</h4>
-                        <p>Ecommerce System</p>
+                        <h4>Portfolio Business Platform</h4>
+                        <p>Service Automation & B2B Hub</p>
+                        <div class="portfolio-stats">
+                            <span><i data-lucide="trending-up"></i> +85% Bookings</span>
+                            <span><i data-lucide="zap"></i> 0.8s Load</span>
+                        </div>
                     </div>
                 </div>
                 <div class="portfolio-card fade-in delay-3">
                     <div class="portfolio-image">
-                        <img src="./assets/portfolio_analytics.png" alt="Analytics Dashboard">
+                        <img src="./assets/portfolio_ecommerce.png" alt="Portfolio Ecommerce DTC Store">
                         <div class="overlay">
-                            <a href="#" class="btn btn-primary btn-sm">View Case Study</a>
+                            <a href="#contact" class="btn btn-primary btn-sm">Enquire System</a>
                         </div>
                     </div>
                     <div class="portfolio-info">
-                        <h4>Financial Data Hub</h4>
-                        <p>Analytics Dashboard</p>
+                        <h4>Portfolio Ecommerce DTC Store</h4>
+                        <p>High-Conversion DTC Engine</p>
+                        <div class="portfolio-stats">
+                            <span><i data-lucide="trending-up"></i> +28% AOV</span>
+                            <span><i data-lucide="zap"></i> 0.9s Load</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="portfolio-card fade-in delay-4">
+                    <div class="portfolio-image">
+                        <img src="./assets/portfolio_analytics.png" alt="Portfolio Analytics Hub">
+                        <div class="overlay">
+                            <a href="#contact" class="btn btn-primary btn-sm">Enquire System</a>
+                        </div>
+                    </div>
+                    <div class="portfolio-info">
+                        <h4>Portfolio Analytics Hub</h4>
+                        <p>Real-Time Growth Intelligence</p>
+                        <div class="portfolio-stats">
+                            <span><i data-lucide="trending-up"></i> +120% Conversion</span>
+                            <span><i data-lucide="zap"></i> 0.7s Load</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -586,6 +630,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="script.js"></script>
 </body>
 

@@ -456,3 +456,172 @@ drawerLinks.forEach(link => {
         }
     });
 });
+
+// =========================================================================
+// Three.js Interactive 3D Particle Background
+// =========================================================================
+function initHero3D() {
+    const canvas = document.getElementById('hero-3d-canvas');
+    if (!canvas) return;
+
+    const scene = new THREE.Scene();
+    
+    // Camera
+    const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+    camera.position.z = 40;
+
+    // Renderer
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+
+    // Particles Geometry
+    const particleCount = 80;
+    const geometry = new THREE.BufferGeometry();
+    const positions = new Float32Array(particleCount * 3);
+    const velocities = [];
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 80;
+        positions[i + 1] = (Math.random() - 0.5) * 80;
+        positions[i + 2] = (Math.random() - 0.5) * 40;
+
+        velocities.push({
+            x: (Math.random() - 0.5) * 0.04,
+            y: (Math.random() - 0.5) * 0.04,
+            z: (Math.random() - 0.5) * 0.02
+        });
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+    // Material
+    const material = new THREE.PointsMaterial({
+        color: 0x10B981, // Teal
+        size: 1.5,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particleSystem = new THREE.Points(geometry, material);
+    scene.add(particleSystem);
+
+    // Dynamic Connections Line setup
+    const maxDistance = 18;
+    const lineMaterial = new THREE.LineBasicMaterial({
+        color: 0x06B6D4, // Electric Cyan
+        transparent: true,
+        opacity: 0.15,
+        blending: THREE.AdditiveBlending
+    });
+
+    const lineGeometry = new THREE.BufferGeometry();
+    const lineSegments = new THREE.LineSegments(lineGeometry, lineMaterial);
+    scene.add(lineSegments);
+
+    // Mouse Tracking
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
+    
+    window.addEventListener('mousemove', (event) => {
+        mouseX = (event.clientX - window.innerWidth / 2) * 0.03;
+        mouseY = (event.clientY - window.innerHeight / 2) * 0.03;
+    });
+
+    // Window Resize handler
+    window.addEventListener('resize', () => {
+        const width = canvas.parentElement.clientWidth;
+        const height = canvas.parentElement.clientHeight;
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+        renderer.setSize(width, height, false);
+    });
+
+    // Animation Loop
+    function animate() {
+        requestAnimationFrame(animate);
+
+        // Interpolated smooth mouse move
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        particleSystem.rotation.y = targetX * 0.004;
+        particleSystem.rotation.x = -targetY * 0.004;
+        lineSegments.rotation.y = targetX * 0.004;
+        lineSegments.rotation.x = -targetY * 0.004;
+
+        const positionsArr = geometry.attributes.position.array;
+        const linePositions = [];
+
+        for (let i = 0; i < particleCount; i++) {
+            const ix = i * 3;
+            positionsArr[ix] += velocities[i].x;
+            positionsArr[ix + 1] += velocities[i].y;
+            positionsArr[ix + 2] += velocities[i].z;
+
+            // Boundaries
+            if (positionsArr[ix] < -50 || positionsArr[ix] > 50) velocities[i].x *= -1;
+            if (positionsArr[ix + 1] < -50 || positionsArr[ix + 1] > 50) velocities[i].y *= -1;
+            if (positionsArr[ix + 2] < -30 || positionsArr[ix + 2] > 30) velocities[i].z *= -1;
+
+            // Connection Lines
+            for (let j = i + 1; j < particleCount; j++) {
+                const jx = j * 3;
+                const dx = positionsArr[ix] - positionsArr[jx];
+                const dy = positionsArr[ix + 1] - positionsArr[jx + 1];
+                const dz = positionsArr[ix + 2] - positionsArr[jx + 2];
+                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+                if (dist < maxDistance) {
+                    linePositions.push(positionsArr[ix], positionsArr[ix + 1], positionsArr[ix + 2]);
+                    linePositions.push(positionsArr[jx], positionsArr[jx + 1], positionsArr[jx + 2]);
+                }
+            }
+        }
+
+        geometry.attributes.position.needsUpdate = true;
+
+        lineGeometry.setAttribute('position', new THREE.Float32BufferAttribute(linePositions, 3));
+        lineGeometry.attributes.position.needsUpdate = true;
+
+        renderer.render(scene, camera);
+    }
+
+    animate();
+}
+
+// =========================================================================
+// 3D Tilt Hover Effects
+// =========================================================================
+function init3DTilt() {
+    const tiltElements = document.querySelectorAll('.service-card, .portfolio-card, .image-wrapper');
+
+    tiltElements.forEach(element => {
+        element.addEventListener('mousemove', (e) => {
+            const rect = element.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = -(y - centerY) / centerY * 10; // Max 10 deg tilt
+            const rotateY = (x - centerX) / centerX * 10;
+            
+            element.classList.remove('reset-tilt');
+            element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+
+        element.addEventListener('mouseleave', () => {
+            element.classList.add('reset-tilt');
+            element.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        });
+    });
+}
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', () => {
+    initHero3D();
+    init3DTilt();
+});
