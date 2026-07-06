@@ -458,25 +458,67 @@ drawerLinks.forEach(link => {
 });
 
 // =========================================================================
-// Three.js Interactive 3D Particle Background
+// Three.js Interactive 3D Particle & Geometric Background
 // =========================================================================
 function initHero3D() {
     const canvas = document.getElementById('hero-3d-canvas');
     if (!canvas) return;
 
     const scene = new THREE.Scene();
-    
+
     // Camera
     const camera = new THREE.PerspectiveCamera(60, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-    camera.position.z = 40;
+    camera.position.z = 45;
 
     // Renderer
     const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
 
+    // Lights
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.35);
+    scene.add(ambientLight);
+
+    const pointLight1 = new THREE.PointLight(0x10B981, 1.5, 80);
+    pointLight1.position.set(20, 20, 20);
+    scene.add(pointLight1);
+
+    const pointLight2 = new THREE.PointLight(0x06B6D4, 1.5, 80);
+    pointLight2.position.set(-20, -20, 20);
+    scene.add(pointLight2);
+
+    // Floating 3D Geometric shapes
+    const shapes = [];
+    const shapeMaterial = new THREE.MeshPhysicalMaterial({
+        color: 0x06B6D4,
+        roughness: 0.1,
+        metalness: 0.8,
+        transparent: true,
+        opacity: 0.22,
+        transmission: 0.65,
+        ior: 1.45,
+        side: THREE.DoubleSide
+    });
+
+    const geometries = [
+        new THREE.TorusGeometry(3.5, 0.9, 16, 80),
+        new THREE.IcosahedronGeometry(4, 1),
+        new THREE.OctahedronGeometry(4, 0)
+    ];
+
+    geometries.forEach((geom, idx) => {
+        const mesh = new THREE.Mesh(geom, shapeMaterial);
+        mesh.position.set(
+            (idx - 1) * 26,
+            (Math.random() - 0.5) * 12,
+            (Math.random() - 0.5) * 8
+        );
+        scene.add(mesh);
+        shapes.push(mesh);
+    });
+
     // Particles Geometry
-    const particleCount = 80;
+    const particleCount = 70;
     const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(particleCount * 3);
     const velocities = [];
@@ -487,8 +529,8 @@ function initHero3D() {
         positions[i + 2] = (Math.random() - 0.5) * 40;
 
         velocities.push({
-            x: (Math.random() - 0.5) * 0.04,
-            y: (Math.random() - 0.5) * 0.04,
+            x: (Math.random() - 0.5) * 0.03,
+            y: (Math.random() - 0.5) * 0.03,
             z: (Math.random() - 0.5) * 0.02
         });
     }
@@ -498,9 +540,9 @@ function initHero3D() {
     // Material
     const material = new THREE.PointsMaterial({
         color: 0x10B981, // Teal
-        size: 1.5,
+        size: 1.4,
         transparent: true,
-        opacity: 0.7,
+        opacity: 0.6,
         blending: THREE.AdditiveBlending
     });
 
@@ -512,7 +554,7 @@ function initHero3D() {
     const lineMaterial = new THREE.LineBasicMaterial({
         color: 0x06B6D4, // Electric Cyan
         transparent: true,
-        opacity: 0.15,
+        opacity: 0.12,
         blending: THREE.AdditiveBlending
     });
 
@@ -523,10 +565,10 @@ function initHero3D() {
     // Mouse Tracking
     let mouseX = 0, mouseY = 0;
     let targetX = 0, targetY = 0;
-    
+
     window.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX - window.innerWidth / 2) * 0.03;
-        mouseY = (event.clientY - window.innerHeight / 2) * 0.03;
+        mouseX = (event.clientX - window.innerWidth / 2) * 0.025;
+        mouseY = (event.clientY - window.innerHeight / 2) * 0.025;
     });
 
     // Window Resize handler
@@ -542,14 +584,22 @@ function initHero3D() {
     function animate() {
         requestAnimationFrame(animate);
 
-        // Interpolated smooth mouse move
         targetX += (mouseX - targetX) * 0.05;
         targetY += (mouseY - targetY) * 0.05;
 
-        particleSystem.rotation.y = targetX * 0.004;
-        particleSystem.rotation.x = -targetY * 0.004;
-        lineSegments.rotation.y = targetX * 0.004;
-        lineSegments.rotation.x = -targetY * 0.004;
+        // Rotate particles
+        particleSystem.rotation.y = targetX * 0.003;
+        particleSystem.rotation.x = -targetY * 0.003;
+        lineSegments.rotation.y = targetX * 0.003;
+        lineSegments.rotation.x = -targetY * 0.003;
+
+        // Rotate shapes
+        shapes.forEach((shape, idx) => {
+            shape.rotation.x += 0.004 * (idx + 1);
+            shape.rotation.y += 0.002 * (idx + 1);
+            shape.position.y += Math.sin(Date.now() * 0.001 + idx) * 0.01;
+            shape.rotation.z += targetX * 0.001;
+        });
 
         const positionsArr = geometry.attributes.position.array;
         const linePositions = [];
@@ -561,9 +611,9 @@ function initHero3D() {
             positionsArr[ix + 2] += velocities[i].z;
 
             // Boundaries
-            if (positionsArr[ix] < -50 || positionsArr[ix] > 50) velocities[i].x *= -1;
-            if (positionsArr[ix + 1] < -50 || positionsArr[ix + 1] > 50) velocities[i].y *= -1;
-            if (positionsArr[ix + 2] < -30 || positionsArr[ix + 2] > 30) velocities[i].z *= -1;
+            if (positionsArr[ix] < -45 || positionsArr[ix] > 45) velocities[i].x *= -1;
+            if (positionsArr[ix + 1] < -45 || positionsArr[ix + 1] > 45) velocities[i].y *= -1;
+            if (positionsArr[ix + 2] < -25 || positionsArr[ix + 2] > 25) velocities[i].z *= -1;
 
             // Connection Lines
             for (let j = i + 1; j < particleCount; j++) {
@@ -595,20 +645,20 @@ function initHero3D() {
 // 3D Tilt Hover Effects
 // =========================================================================
 function init3DTilt() {
-    const tiltElements = document.querySelectorAll('.service-card, .portfolio-card, .image-wrapper');
+    const tiltElements = document.querySelectorAll('.service-card, .portfolio-card, .image-wrapper, .funnel-3d-layer, .problem-card');
 
     tiltElements.forEach(element => {
         element.addEventListener('mousemove', (e) => {
             const rect = element.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
-            
+
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            
-            const rotateX = -(y - centerY) / centerY * 10; // Max 10 deg tilt
-            const rotateY = (x - centerX) / centerX * 10;
-            
+
+            const rotateX = -(y - centerY) / centerY * 8; // Max 8 deg tilt for elegant feel
+            const rotateY = (x - centerX) / centerX * 8;
+
             element.classList.remove('reset-tilt');
             element.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
         });
@@ -620,8 +670,209 @@ function init3DTilt() {
     });
 }
 
+// =========================================================================
+// Dynamic Mouse coordinates for Glowing borders
+// =========================================================================
+function initMouseGlow() {
+    const cards = document.querySelectorAll('.service-card, .problem-card, .portfolio-card, .funnel-3d-layer');
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
+    });
+}
+
+// =========================================================================
+// Stats Count-Up Animation & Circle SVG fills
+// =========================================================================
+function initStatsCounter() {
+    const statBlocks = document.querySelectorAll('.stat-block');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const numEl = entry.target.querySelector('.stat-number');
+                const progressCircle = entry.target.querySelector('.circle-progress');
+                if (!numEl) return;
+
+                const targetVal = parseFloat(numEl.getAttribute('data-target'));
+                const isDecimal = numEl.getAttribute('data-decimals') === '1';
+
+                // Fill Circle SVG progress
+                if (progressCircle) {
+                    // Let circle fill relative to target value metric cap
+                    const maxCap = targetVal > 10 ? 120 : 1.2;
+                    const percentage = Math.min(targetVal / maxCap, 1);
+                    const strokeDashOffset = 263.89 - (263.89 * percentage * 0.95);
+                    progressCircle.style.strokeDashoffset = strokeDashOffset;
+                }
+
+                // Count up text value
+                let currentVal = 0;
+                const duration = 2000;
+                const steps = 60;
+                const stepTime = duration / steps;
+                const increment = targetVal / steps;
+
+                let step = 0;
+                const timer = setInterval(() => {
+                    currentVal += increment;
+                    step++;
+                    if (step >= steps) {
+                        numEl.textContent = isDecimal ? targetVal.toFixed(1) : Math.round(targetVal);
+                        clearInterval(timer);
+                    } else {
+                        numEl.textContent = isDecimal ? currentVal.toFixed(1) : Math.round(currentVal);
+                    }
+                }, stepTime);
+
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    statBlocks.forEach(block => observer.observe(block));
+}
+
+// =========================================================================
+// Process Timeline Scroll Tracker
+// =========================================================================
+function initTimelineTracker() {
+    const processSection = document.getElementById('process');
+    const progressFill = document.querySelector('.progress-line-fill');
+    const steps = document.querySelectorAll('.process-step');
+    if (!processSection || !progressFill) return;
+
+    window.addEventListener('scroll', () => {
+        const rect = processSection.getBoundingClientRect();
+        const viewHeight = window.innerHeight;
+
+        // Calculate dynamic process vertical visibility index
+        const progressStart = viewHeight * 0.8;
+        const progressEnd = viewHeight * 0.2;
+
+        let pct = (progressStart - rect.top) / (progressStart - rect.bottom);
+        pct = Math.max(0, Math.min(1, pct));
+
+        const isMobile = window.innerWidth <= 992;
+        progressFill.style.width = isMobile ? '100%' : `${pct * 100}%`;
+        progressFill.style.height = isMobile ? `${pct * 100}%` : '100%';
+
+        // Activate step nodes sequentially
+        steps.forEach((step, idx) => {
+            const stepThreshold = (idx + 0.3) / steps.length;
+            if (pct >= stepThreshold) {
+                step.classList.add('active');
+            } else {
+                step.classList.remove('active');
+            }
+        });
+    });
+}
+
+// =========================================================================
+// Portfolio Category Filter Logic
+// =========================================================================
+function initPortfolioFilter() {
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const portfolioCards = document.querySelectorAll('.portfolio-card');
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const filterVal = btn.getAttribute('data-filter');
+
+            portfolioCards.forEach(card => {
+                const cardCategory = card.getAttribute('data-category');
+
+                if (filterVal === 'all' || cardCategory === filterVal) {
+                    card.classList.remove('filtered-out');
+                    card.style.opacity = '0';
+                    card.style.transform = 'scale(0.96)';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'scale(1)';
+                    }, 50);
+                } else {
+                    card.classList.add('filtered-out');
+                }
+            });
+        });
+    });
+}
+
+// =========================================================================
+// Testimonials Carousel Review Slider
+// =========================================================================
+function initTestimonialSlider() {
+    const slides = document.querySelectorAll('.testimonial-slide');
+    const dots = document.querySelectorAll('.slider-dot');
+    const prevBtn = document.getElementById('prev-review');
+    const nextBtn = document.getElementById('next-review');
+    if (!slides.length) return;
+
+    let currentIndex = 0;
+    let autoplayTimer;
+
+    function showSlide(index) {
+        slides.forEach(slide => slide.classList.remove('active'));
+        dots.forEach(dot => dot.classList.remove('active'));
+
+        currentIndex = (index + slides.length) % slides.length;
+
+        slides[currentIndex].classList.add('active');
+        dots[currentIndex].classList.add('active');
+    }
+
+    function nextSlide() {
+        showSlide(currentIndex + 1);
+    }
+
+    function prevSlide() {
+        showSlide(currentIndex - 1);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+        prevSlide();
+        resetAutoplay();
+    });
+
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+        nextSlide();
+        resetAutoplay();
+    });
+
+    dots.forEach((dot, idx) => {
+        dot.addEventListener('click', () => {
+            showSlide(idx);
+            resetAutoplay();
+        });
+    });
+
+    function startAutoplay() {
+        autoplayTimer = setInterval(nextSlide, 6000);
+    }
+
+    function resetAutoplay() {
+        clearInterval(autoplayTimer);
+        startAutoplay();
+    }
+
+    startAutoplay();
+}
+
 // Initialize on DOM load
 document.addEventListener('DOMContentLoaded', () => {
     initHero3D();
     init3DTilt();
+    initMouseGlow();
+    initStatsCounter();
+    initTimelineTracker();
+    initPortfolioFilter();
+    initTestimonialSlider();
 });
