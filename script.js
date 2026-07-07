@@ -331,7 +331,7 @@ const mainContactForm = document.getElementById('contact-form');
 const formSuccess = document.querySelector('.form-success');
 
 // TODO: Replace this URL with your actual deployed Google Apps Script Web App URL
-const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxeaeQNwLUE6kN-4wpq-5_hwuorZ4XpvR0cttlzVrfAKPXti0Xf8VEjQv_MdVah4vFVIg/exec';
+const APP_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby8Ayfq-tMU2Mhitj14_VVOKGmFa0a0roLPYVtbmBwkh-7lG1yaMhMyqrxGOq1amzovvA/exec';
 
 if (mainContactForm) {
     mainContactForm.addEventListener('submit', (e) => {
@@ -345,6 +345,17 @@ if (mainContactForm) {
         // Convert FormData to URLSearchParams to send it as application/x-www-form-urlencoded.
         // This ensures Google Apps Script can read variables via e.parameter.
         const formData = new FormData(mainContactForm);
+
+        // Expose phone value to other common naming conventions (mobile, tel, etc.)
+        // for maximum compatibility with custom Google Sheets column mapping scripts
+        const phoneValue = formData.get('phone');
+        if (phoneValue) {
+            formData.append('mobile', phoneValue);
+            formData.append('tel', phoneValue);
+            formData.append('mobile-number', phoneValue);
+            formData.append('phone-number', phoneValue);
+        }
+
         const searchParams = new URLSearchParams(formData);
 
         if (APP_SCRIPT_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {

@@ -19,7 +19,7 @@ function doPost(e) {
   if (!sheet) {
     // NOTE: If you are using a standalone script, replace the string below with your Spreadsheet ID:
     // e.g. "1vXXXXXXXX_XXXXXXX_XXXXXXXX" (from the spreadsheet URL)
-    var SPREADSHEET_ID = "1yG4tlVrCtuzfHyBzRkT1ztmmNr-HoCI25ivaGJFCjMI";
+    var SPREADSHEET_ID = "https://docs.google.com/spreadsheets/d/1yG4tlVrCtuzfHyBzRkT1ztmmNr-HoCI25ivaGJFCjMI/edit?gid=0#gid=0";
 
     // Auto-extract ID if full URL is provided
     if (SPREADSHEET_ID && SPREADSHEET_ID.indexOf("docs.google.com") !== -1) {
@@ -68,9 +68,13 @@ function doPost(e) {
     var timestamp = new Date();
     var name = parameter.name || "";
     var email = parameter.email || "";
-    var phone = parameter.phone || "";
+
+    // Accept multiple common names for the mobile number field for maximum robustness
+    var phone = parameter.phone || parameter.mobile || parameter.tel || parameter.number || parameter['mobile-number'] || parameter['phone-number'] || "";
     var service = parameter.service || "";
     var details = parameter.details || "";
+
+    console.log("Recording row: Timestamp=" + timestamp + ", Name=" + name + ", Email=" + email + ", Phone=" + phone + ", Service=" + service + ", Details=" + details);
 
     // Append to sheet (Make sure your Google Sheet has columns: Timestamp, Name, Email, Phone, Service, Details)
     sheet.appendRow([timestamp, name, email, phone, service, details]);
