@@ -177,6 +177,7 @@ h2 {
     letter-spacing: -0.03em;
     background: linear-gradient(135deg, #F8FAFC 30%, var(--clr-accent-teal) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
 }
@@ -529,6 +530,7 @@ h4 {
     letter-spacing: -0.03em;
     background: linear-gradient(135deg, #F8FAFC 30%, var(--clr-accent-teal) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin-bottom: var(--spacing-md);
 }
@@ -2045,6 +2047,7 @@ h4 {
 .text-gradient-cyan {
     background: linear-gradient(135deg, #F8FAFC 30%, var(--clr-accent-cyan) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
 }
@@ -2052,6 +2055,7 @@ h4 {
 .text-gradient-teal {
     background: linear-gradient(135deg, var(--clr-accent-teal) 0%, #34D399 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     display: inline-block;
 }
@@ -2121,6 +2125,7 @@ h4 {
     border: 1px solid transparent;
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.3), rgba(6, 182, 212, 0.3)) border-box;
     -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
     -webkit-mask-composite: xor;
     mask-composite: exclude;
     opacity: 0;
