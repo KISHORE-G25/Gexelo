@@ -30,6 +30,69 @@
     --clr-border: rgba(255, 255, 255, 0.08);
     --clr-border-hover: rgba(16, 185, 129, 0.3);
 
+    /* Claymorphism Styling System */
+    --clr-clay-dark-bg: #1A2436;
+    --clr-clay-input-bg: #090D17;
+
+    --shadow-clay-card:
+        inset -8px -8px 16px rgba(0, 0, 0, 0.45),
+        inset 8px 8px 16px rgba(255, 255, 255, 0.06),
+        0 16px 36px rgba(0, 0, 0, 0.45);
+
+    --shadow-clay-card-hover:
+        inset -12px -12px 24px rgba(0, 0, 0, 0.55),
+        inset 10px 10px 20px rgba(255, 255, 255, 0.08),
+        0 24px 48px rgba(0, 0, 0, 0.55),
+        0 0 25px rgba(16, 185, 129, 0.1);
+
+    --shadow-clay-teal:
+        inset -4px -4px 8px rgba(0, 0, 0, 0.35),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.45),
+        0 12px 24px rgba(16, 185, 129, 0.25);
+
+    --shadow-clay-teal-hover:
+        inset -6px -6px 12px rgba(0, 0, 0, 0.4),
+        inset 6px 6px 12px rgba(255, 255, 255, 0.5),
+        0 16px 32px rgba(16, 185, 129, 0.35);
+
+    --shadow-clay-cyan:
+        inset -4px -4px 8px rgba(0, 0, 0, 0.35),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.45),
+        0 12px 24px rgba(6, 182, 212, 0.25);
+
+    --shadow-clay-cyan-hover:
+        inset -6px -6px 12px rgba(0, 0, 0, 0.4),
+        inset 6px 6px 12px rgba(255, 255, 255, 0.5),
+        0 16px 32px rgba(6, 182, 212, 0.35);
+
+    --shadow-clay-gold:
+        inset -4px -4px 8px rgba(0, 0, 0, 0.3),
+        inset 4px 4px 8px rgba(255, 255, 255, 0.45),
+        0 12px 24px rgba(245, 158, 11, 0.25);
+
+    --shadow-clay-gold-hover:
+        inset -6px -6px 12px rgba(0, 0, 0, 0.35),
+        inset 6px 6px 12px rgba(255, 255, 255, 0.5),
+        0 16px 32px rgba(245, 158, 11, 0.35);
+
+    --shadow-clay-secondary:
+        inset -3px -3px 6px rgba(0, 0, 0, 0.4),
+        inset 3px 3px 6px rgba(255, 255, 255, 0.08),
+        0 8px 16px rgba(0, 0, 0, 0.25);
+
+    --shadow-clay-secondary-hover:
+        inset -5px -5px 10px rgba(0, 0, 0, 0.45),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.12),
+        0 12px 24px rgba(0, 0, 0, 0.35);
+
+    --shadow-clay-concave:
+        inset 5px 5px 10px rgba(0, 0, 0, 0.4),
+        inset -5px -5px 10px rgba(255, 255, 255, 0.04);
+
+    --shadow-clay-badge:
+        inset -2px -2px 4px rgba(0, 0, 0, 0.3),
+        inset 2px 2px 4px rgba(255, 255, 255, 0.08);
+
     /* Typography */
     --font-primary: 'Poppins', 'Inter', sans-serif;
 
@@ -41,9 +104,10 @@
     --spacing-xl: 8rem;
 
     /* Transition */
-    --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-base: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-slow: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-fast: 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    /* Added slight bounce */
+    --transition-base: 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    --transition-slow: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1);
 }
 
 /* =========================================================================
@@ -274,45 +338,45 @@ h4 {
     justify-content: center;
     padding: 0.75rem 1.75rem;
     font-weight: 600;
-    border-radius: 8px;
-    border: 1px solid transparent;
+    border-radius: 30px;
+    border: none;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
     position: relative;
     overflow: hidden;
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, var(--clr-accent-teal) 0%, #059669 100%);
+    background: var(--clr-accent-teal);
     color: var(--clr-bg-primary) !important;
-    box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.2);
+    box-shadow: var(--shadow-clay-teal);
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px 0 rgba(16, 185, 129, 0.4);
-    background: linear-gradient(135deg, #34D399 0%, #10B981 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-clay-teal-hover);
+    background: #2dd4bf;
 }
 
 .btn-primary:active {
-    transform: translateY(0);
+    transform: translateY(1px) scale(0.96);
 }
 
 .btn-secondary {
-    background-color: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.15);
-    color: var(--clr-text-secondary);
+    background-color: #2A354D;
+    color: var(--clr-text-primary);
+    box-shadow: var(--shadow-clay-secondary);
 }
 
 .btn-secondary:hover {
-    border-color: var(--clr-accent-teal);
-    color: var(--clr-accent-teal);
-    background-color: rgba(16, 185, 129, 0.05);
-    transform: translateY(-2px);
+    color: var(--clr-text-primary);
+    background-color: #344261;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-clay-secondary-hover);
 }
 
 .btn-secondary:active {
-    transform: translateY(0);
+    transform: translateY(1px) scale(0.96);
 }
 
 .btn-lg {
@@ -354,30 +418,28 @@ h4 {
     right: 5%;
     width: 90%;
     margin: 0 auto;
-    border-radius: 16px;
+    border-radius: 36px;
     z-index: 100;
-    background: rgba(11, 15, 25, 0.45);
-    /* Increased transparency */
-    -webkit-backdrop-filter: blur(28px);
-    /* Increased blur for stronger glass effect */
-    backdrop-filter: blur(28px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    /* Sharper white glass edge */
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.2),
-        0 20px 40px -10px rgba(0, 0, 0, 0.5),
-        0 0 15px rgba(255, 255, 255, 0.02);
+    background: rgba(26, 36, 54, 0.85);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border: none;
+    box-shadow:
+        inset -5px -5px 10px rgba(0, 0, 0, 0.45),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.06),
+        0 12px 28px rgba(0, 0, 0, 0.35);
     transition: var(--transition-base);
 }
 
 .navbar.scrolled {
     top: 0.75rem;
-    background: rgba(11, 15, 25, 0.65);
-    /* Keeps transparency when scrolled */
-    border-color: rgba(16, 185, 129, 0.35);
-    /* Elegant glowing active teal border */
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
-        0 20px 45px -10px rgba(0, 0, 0, 0.6),
-        0 0 20px rgba(16, 185, 129, 0.15);
+    background: rgba(26, 36, 54, 0.95);
+    border: none;
+    box-shadow:
+        inset -5px -5px 10px rgba(0, 0, 0, 0.55),
+        inset 5px 5px 10px rgba(255, 255, 255, 0.08),
+        0 16px 32px rgba(0, 0, 0, 0.45),
+        0 0 15px rgba(16, 185, 129, 0.1);
 }
 
 
@@ -487,15 +549,16 @@ h4 {
 .badge {
     display: inline-block;
     padding: 0.35rem 0.85rem;
-    background: rgba(16, 185, 129, 0.08);
+    background: rgba(16, 185, 129, 0.15);
     color: var(--clr-accent-teal);
-    border: 1px solid rgba(16, 185, 129, 0.15);
+    border: none;
     border-radius: 100px;
     font-size: 0.8rem;
     font-weight: 600;
     margin-bottom: var(--spacing-sm);
     text-transform: uppercase;
     letter-spacing: 0.08em;
+    box-shadow: var(--shadow-clay-badge);
 }
 
 .hero-actions {
@@ -555,13 +618,11 @@ h4 {
 /* Problem Section */
 .problem-card {
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
-    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 28px;
+    box-shadow: var(--shadow-clay-card);
+    transition: transform 0.15s ease-out, box-shadow var(--transition-fast);
 
     transform-style: preserve-3d;
     perspective: 1000px;
@@ -576,10 +637,7 @@ h4 {
 }
 
 .problem-card:hover {
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
-        0 25px 50px -15px rgba(0, 0, 0, 0.7),
-        0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .problem-header {
@@ -635,26 +693,20 @@ h4 {
 
 .funnel-step {
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 24px;
     text-align: center;
     flex: 1;
     min-width: 150px;
     max-width: 200px;
     transition: var(--transition-base);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 30px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-clay-card);
 }
 
 .funnel-step:hover {
-    border-color: var(--clr-accent-teal);
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0.05) 100%);
     transform: translateY(-6px) scale(1.02);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
-        0 20px 40px -15px rgba(0, 0, 0, 0.6),
-        0 0 20px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 
@@ -700,18 +752,16 @@ h4 {
 /* Services Section */
 .service-card {
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 28px;
     position: relative;
     overflow: hidden;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--shadow-clay-card);
 
     transform-style: preserve-3d;
     perspective: 1000px;
-    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform 0.15s ease-out, box-shadow var(--transition-fast);
 }
 
 .service-card.reset-tilt {
@@ -719,10 +769,7 @@ h4 {
 }
 
 .service-card:hover {
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
-        0 25px 50px -15px rgba(0, 0, 0, 0.7),
-        0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .service-card .card-header,
@@ -870,17 +917,15 @@ h4 {
 
 /* Portfolio Section */
 .portfolio-card {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border-radius: 16px;
+    background: var(--clr-clay-dark-bg);
+    border-radius: 28px;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+    border: none;
+    box-shadow: var(--shadow-clay-card);
 
     transform-style: preserve-3d;
     perspective: 1000px;
-    transition: transform 0.15s ease-out, border-color var(--transition-fast), box-shadow var(--transition-fast);
+    transition: transform 0.15s ease-out, box-shadow var(--transition-fast);
 }
 
 .portfolio-card.reset-tilt {
@@ -888,10 +933,7 @@ h4 {
 }
 
 .portfolio-card:hover {
-    border-color: rgba(16, 185, 129, 0.4);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
-        0 25px 50px -15px rgba(0, 0, 0, 0.7),
-        0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .portfolio-card .portfolio-image,
@@ -997,18 +1039,16 @@ h4 {
     align-items: center;
     gap: 1.25rem;
     padding: 1.5rem;
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.2) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-clay-card);
     transition: all var(--transition-fast);
 }
 
 .info-block:hover {
     transform: translateY(-4px);
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px rgba(16, 185, 129, 0.05);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .info-block .icon-box {
@@ -1030,15 +1070,13 @@ h4 {
 }
 
 .contact-form-wrapper {
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
+    background: var(--clr-clay-dark-bg);
     padding: var(--spacing-lg) var(--spacing-md);
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    border: none;
     position: relative;
     overflow: hidden;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1), 0 20px 45px -10px rgba(0, 0, 0, 0.6);
+    box-shadow: var(--shadow-clay-card);
 }
 
 .form-group {
@@ -1058,19 +1096,23 @@ h4 {
 .form-group textarea {
     width: 100%;
     padding: 0.75rem 1rem;
-    background: var(--clr-bg-primary);
-    border: 1px solid var(--clr-border);
-    border-radius: 6px;
+    background: var(--clr-clay-input-bg);
+    border: none;
+    border-radius: 16px;
     color: var(--clr-text-primary);
     font-family: var(--font-primary);
-    transition: border-color var(--transition-fast);
+    box-shadow: var(--shadow-clay-concave);
+    transition: box-shadow var(--transition-fast);
 }
 
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     outline: none;
-    border-color: var(--clr-accent-teal);
+    box-shadow:
+        inset 5px 5px 10px rgba(0, 0, 0, 0.5),
+        inset -5px -5px 10px rgba(255, 255, 255, 0.05),
+        0 0 10px rgba(16, 185, 129, 0.2);
 }
 
 .w-100 {
@@ -1253,13 +1295,14 @@ h4 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(20, 184, 166, 0.4);
-    transition: transform var(--transition-base), background-color var(--transition-fast);
+    box-shadow: var(--shadow-clay-teal);
+    transition: transform var(--transition-base), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .chat-toggle-btn:hover {
     transform: scale(1.1);
-    background-color: #119a8b;
+    background-color: #2dd4bf;
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .chat-toggle-btn i {
@@ -1274,16 +1317,14 @@ h4 {
     width: 360px;
     height: 520px;
     max-height: calc(100vh - 120px);
-    background-color: rgba(15, 23, 42, 0.95);
-    border: 1px solid rgba(16, 185, 129, 0.2);
-    border-radius: 16px;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(16, 185, 129, 0.12);
+    background-color: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 28px;
+    box-shadow: var(--shadow-clay-card);
     display: flex;
     flex-direction: column;
     overflow: hidden;
     transform-origin: bottom right;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
     transition: opacity var(--transition-base), transform var(--transition-base), visibility var(--transition-base);
 }
 
@@ -1401,17 +1442,21 @@ h4 {
 }
 
 .bot .msg-content {
-    background-color: rgba(16, 185, 129, 0.08);
-    color: var(--clr-text-primary);
-    border: 1px solid rgba(16, 185, 129, 0.15);
+    background-color: var(--clr-accent-teal);
+    color: var(--clr-bg-primary);
+    border: none;
+    border-radius: 18px;
     border-bottom-left-radius: 4px;
+    box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.35), inset 3px 3px 6px rgba(255, 255, 255, 0.45);
 }
 
 .user .msg-content {
-    background-color: rgba(255, 255, 255, 0.06);
-    color: var(--clr-text-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    background-color: #2A354D;
+    color: var(--clr-text-primary);
+    border: none;
+    border-radius: 18px;
     border-bottom-right-radius: 4px;
+    box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.4), inset 3px 3px 6px rgba(255, 255, 255, 0.08);
 }
 
 .chat-footer {
@@ -1459,11 +1504,14 @@ h4 {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    box-shadow: var(--shadow-clay-teal);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .chat-send-btn:hover {
-    background-color: #34D399;
+    background-color: #2dd4bf;
+    transform: scale(1.08);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .chat-send-btn i {
@@ -1490,30 +1538,36 @@ h4 {
     width: 100%;
     margin-top: 0.5rem;
     padding: 0.5rem 1rem;
-    background-color: transparent;
-    color: var(--clr-accent-teal);
-    border: 1px solid var(--clr-accent-teal);
-    border-radius: 6px;
+    background-color: #2A354D;
+    color: var(--clr-text-primary);
+    border: none;
+    border-radius: 20px;
     font-size: 0.875rem;
     font-weight: 500;
     cursor: pointer;
     text-align: center;
-    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-clay-secondary);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
 }
 
 .chat-action-btn:hover {
     background-color: var(--clr-accent-teal);
     color: var(--clr-bg-primary);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .chat-action-btn.whatsapp {
-    color: #4ade80;
-    border-color: #4ade80;
+    color: #0b0f19;
+    background-color: #4ade80;
+    box-shadow: inset -3px -3px 6px rgba(0, 0, 0, 0.35), inset 3px 3px 6px rgba(255, 255, 255, 0.45), 0 8px 16px rgba(74, 222, 128, 0.25);
 }
 
 .chat-action-btn.whatsapp:hover {
-    background-color: #4ade80;
-    color: var(--clr-bg-primary);
+    background-color: #6ef0a1;
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: inset -4px -4px 8px rgba(0, 0, 0, 0.4), inset 4px 4px 8px rgba(255, 255, 255, 0.5), 0 12px 20px rgba(74, 222, 128, 0.35);
+    color: #0b0f19;
 }
 
 .chat-inline-input {
@@ -1525,31 +1579,39 @@ h4 {
 .chat-inline-input input {
     flex: 1;
     padding: 0.5rem;
-    background: var(--clr-bg-primary);
-    border: 1px solid var(--clr-border);
-    border-radius: 4px;
+    background: var(--clr-clay-input-bg);
+    border: none;
+    border-radius: 16px;
     color: var(--clr-text-primary);
     font-size: 0.875rem;
+    box-shadow: var(--shadow-clay-concave);
+    transition: box-shadow var(--transition-fast);
     outline: none;
 }
 
 .chat-inline-input input:focus {
-    border-color: var(--clr-accent-teal);
+    box-shadow:
+        inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.05),
+        0 0 10px rgba(16, 185, 129, 0.15);
 }
 
 .chat-inline-input button {
     background: var(--clr-accent-teal);
     color: var(--clr-bg-primary);
     border: none;
-    border-radius: 4px;
+    border-radius: 20px;
     padding: 0 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color var(--transition-fast);
+    box-shadow: var(--shadow-clay-teal);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .chat-inline-input button:hover {
-    background: #119a8b;
+    background: #2dd4bf;
+    transform: scale(1.05);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 /* Typing Indicator */
@@ -1605,12 +1667,10 @@ h4 {
 
 .testimonial-card {
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 16px;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 15px 35px -10px rgba(0, 0, 0, 0.5);
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 28px;
+    box-shadow: var(--shadow-clay-card);
     transition: var(--transition-base);
     display: flex;
     flex-direction: column;
@@ -1618,11 +1678,8 @@ h4 {
 }
 
 .testimonial-card:hover {
-    border-color: rgba(16, 185, 129, 0.4);
     transform: translateY(-8px) scale(1.01);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
-        0 25px 50px -15px rgba(0, 0, 0, 0.7),
-        0 0 25px 0 rgba(16, 185, 129, 0.15);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 
@@ -1691,18 +1748,17 @@ h4 {
 }
 
 .faq-item {
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    background: rgba(30, 41, 59, 0.2);
-    border-radius: 12px;
+    border: none;
+    background: var(--clr-clay-dark-bg);
+    border-radius: 20px;
     margin-bottom: 1rem;
     overflow: hidden;
     transition: all var(--transition-base);
-    -webkit-backdrop-filter: blur(10px);
-    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-clay-card);
 }
 
 .faq-item:hover {
-    border-color: rgba(16, 185, 129, 0.2);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .faq-question {
@@ -1743,9 +1799,8 @@ h4 {
 }
 
 .faq-item.active {
-    border-color: rgba(16, 185, 129, 0.35);
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.3), 0 0 15px 0 rgba(16, 185, 129, 0.05);
-    background: rgba(30, 41, 59, 0.35);
+    background: var(--clr-clay-dark-bg);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .faq-item.active .faq-icon {
@@ -2030,19 +2085,16 @@ h4 {
     position: relative;
     width: 100%;
     padding: 1.5rem 2rem;
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.5) 0%, rgba(15, 23, 42, 0.35) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.05);
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 20px;
+    box-shadow: var(--shadow-clay-card);
     transform-style: preserve-3d;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
 }
 
 .funnel-3d-stack:hover .funnel-3d-layer {
-    border-color: rgba(16, 185, 129, 0.25);
-    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(16, 185, 129, 0.05);
+    box-shadow: var(--shadow-clay-card-hover);
 }
 
 .funnel-3d-stack:hover #funnel-layer-1 {
@@ -2232,18 +2284,18 @@ h4 {
 }
 
 .process-step {
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1) !important;
-    background: rgba(30, 41, 59, 0.25) !important;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+    background: var(--clr-clay-dark-bg) !important;
+    border: none !important;
+    border-radius: 28px !important;
     padding: 2rem 1.5rem !important;
+    box-shadow: var(--shadow-clay-card);
 }
 
 .process-step.active {
-    border-color: rgba(16, 185, 129, 0.4);
-    background: linear-gradient(135deg, rgba(16, 185, 129, 0.06) 0%, rgba(15, 23, 42, 0.4) 100%) !important;
-    box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.6), 0 0 20px rgba(16, 185, 129, 0.05);
-    transform: translateY(-5px);
+    background: var(--clr-clay-dark-bg) !important;
+    box-shadow: var(--shadow-clay-card-hover) !important;
+    transform: translateY(-5px) scale(1.02);
 }
 
 .process-step.active .step-number {
@@ -2262,23 +2314,24 @@ h4 {
 }
 
 .filter-btn {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #2A354D;
+    border: none;
     color: var(--clr-text-secondary);
     padding: 0.5rem 1.5rem;
     font-weight: 600;
     border-radius: 30px;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-clay-secondary);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
     font-size: 0.875rem;
 }
 
 .filter-btn:hover,
 .filter-btn.active {
-    background: rgba(16, 185, 129, 0.08);
-    border-color: var(--clr-accent-teal);
-    color: var(--clr-accent-teal);
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.12);
+    background: var(--clr-accent-teal);
+    color: var(--clr-bg-primary);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .tech-tags {
@@ -2290,11 +2343,12 @@ h4 {
 
 .tech-tags span {
     font-size: 0.75rem;
-    padding: 0.15rem 0.5rem;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 4px;
-    color: var(--clr-text-muted);
+    padding: 0.2rem 0.65rem;
+    background: #2A354D;
+    border: none;
+    border-radius: 12px;
+    color: var(--clr-text-secondary);
+    box-shadow: var(--shadow-clay-badge);
 }
 
 .portfolio-card {
@@ -2325,16 +2379,14 @@ h4 {
     opacity: 0;
     visibility: hidden;
     transform: scale(0.96) translateX(40px);
-    transition: opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transition: opacity 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+        transform 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275),
         visibility 0.55s;
     padding: var(--spacing-md);
-    background: linear-gradient(135deg, rgba(30, 41, 59, 0.45) 0%, rgba(15, 23, 42, 0.25) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 20px;
-    -webkit-backdrop-filter: blur(16px);
-    backdrop-filter: blur(16px);
-    box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.15), 0 20px 45px -10px rgba(0, 0, 0, 0.5);
+    background: var(--clr-clay-dark-bg);
+    border: none;
+    border-radius: 28px;
+    box-shadow: var(--shadow-clay-card);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -2358,21 +2410,22 @@ h4 {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: #2A354D;
+    border: none;
     color: var(--clr-text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-clay-secondary);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
 }
 
 .slider-arrow:hover {
-    background: rgba(16, 185, 129, 0.05);
-    border-color: var(--clr-accent-teal);
-    color: var(--clr-accent-teal);
-    box-shadow: 0 0 12px rgba(16, 185, 129, 0.15);
+    background: var(--clr-accent-teal);
+    color: var(--clr-bg-primary);
+    transform: scale(1.08);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .slider-dots {
@@ -2406,12 +2459,13 @@ h4 {
 .floating-group input,
 .floating-group select,
 .floating-group textarea {
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    background: rgba(11, 15, 25, 0.6) !important;
-    border-radius: 8px !important;
+    border: none !important;
+    background: var(--clr-clay-input-bg) !important;
+    border-radius: 16px !important;
     padding: 1.25rem 1rem 0.5rem 1rem !important;
     font-size: 0.95rem !important;
-    transition: border-color var(--transition-fast) !important;
+    box-shadow: var(--shadow-clay-concave) !important;
+    transition: box-shadow var(--transition-fast) !important;
     width: 100%;
 }
 
@@ -2763,13 +2817,14 @@ h4 {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #2A354D;
+    border: none;
     color: var(--clr-text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-clay-secondary);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
 }
 
 .social-circle svg {
@@ -2781,11 +2836,10 @@ h4 {
 }
 
 .social-circle:hover {
-    background: rgba(16, 185, 129, 0.08);
-    border-color: var(--clr-accent-teal);
-    color: var(--clr-accent-teal);
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(16, 185, 129, 0.15);
+    background: var(--clr-accent-teal);
+    color: var(--clr-bg-primary);
+    transform: translateY(-3px) scale(1.08);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .footer-col h4 {
@@ -2837,16 +2891,19 @@ h4 {
 
 .newsletter-group {
     display: flex;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 8px;
+    background: var(--clr-clay-input-bg);
+    border: none;
+    border-radius: 20px;
     padding: 0.25rem;
-    transition: border-color var(--transition-fast);
+    box-shadow: var(--shadow-clay-concave);
+    transition: box-shadow var(--transition-fast);
 }
 
 .newsletter-group:focus-within {
-    border-color: var(--clr-accent-teal);
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.15);
+    box-shadow:
+        inset 4px 4px 8px rgba(0, 0, 0, 0.5),
+        inset -4px -4px 8px rgba(255, 255, 255, 0.05),
+        0 0 10px rgba(16, 185, 129, 0.15);
 }
 
 .newsletter-group input {
@@ -2875,11 +2932,14 @@ h4 {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-fast);
+    box-shadow: var(--shadow-clay-teal);
+    transition: transform var(--transition-fast), background-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .newsletter-group button:hover {
-    background: #34D399;
+    background: #2dd4bf;
+    transform: scale(1.08);
+    box-shadow: var(--shadow-clay-teal-hover);
 }
 
 .copyright-wrapper {

@@ -500,16 +500,7 @@ function initHero3D() {
 
     // Floating 3D Geometric shapes
     const shapes = [];
-    const shapeMaterial = new THREE.MeshPhysicalMaterial({
-        color: 0x06B6D4,
-        roughness: 0.1,
-        metalness: 0.8,
-        transparent: true,
-        opacity: 0.22,
-        transmission: 0.65,
-        ior: 1.45,
-        side: THREE.DoubleSide
-    });
+    const shapeColors = [0x10B981, 0x06B6D4, 0xF59E0B]; // Emerald Teal, Electric Cyan, Amber Gold
 
     const geometries = [
         new THREE.TorusGeometry(3.5, 0.9, 16, 80),
@@ -518,7 +509,16 @@ function initHero3D() {
     ];
 
     geometries.forEach((geom, idx) => {
-        const mesh = new THREE.Mesh(geom, shapeMaterial);
+        const material = new THREE.MeshPhysicalMaterial({
+            color: shapeColors[idx],
+            roughness: 0.25,        // Smooth clay surface
+            metalness: 0.05,        // Non-metallic clay material
+            clearcoat: 1.0,         // Glossy clear finish
+            clearcoatRoughness: 0.1,// Very shiny gloss reflection
+            transparent: false,     // Solid clay blocks
+            side: THREE.DoubleSide
+        });
+        const mesh = new THREE.Mesh(geom, material);
         mesh.position.set(
             (idx - 1) * 26,
             (Math.random() - 0.5) * 12,
