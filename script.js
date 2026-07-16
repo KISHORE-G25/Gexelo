@@ -656,7 +656,7 @@ function initHero3D() {
 // 3D Tilt Hover Effects
 // =========================================================================
 function init3DTilt() {
-    const tiltElements = document.querySelectorAll('.service-card, .portfolio-card, .image-wrapper, .funnel-3d-layer, .problem-card');
+    const tiltElements = document.querySelectorAll('.service-card, .portfolio-card, .image-wrapper, .funnel-3d-layer, .problem-card, .pricing-card');
 
     tiltElements.forEach(element => {
         element.addEventListener('mousemove', (e) => {
@@ -685,7 +685,7 @@ function init3DTilt() {
 // Dynamic Mouse coordinates for Glowing borders
 // =========================================================================
 function initMouseGlow() {
-    const cards = document.querySelectorAll('.service-card, .problem-card, .portfolio-card, .funnel-3d-layer');
+    const cards = document.querySelectorAll('.service-card, .problem-card, .portfolio-card, .funnel-3d-layer, .pricing-card');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -753,9 +753,10 @@ function initStatsCounter() {
 // =========================================================================
 function initTimelineTracker() {
     const processSection = document.getElementById('process');
-    const progressFill = document.querySelector('.progress-line-fill');
     const steps = document.querySelectorAll('.process-step');
-    if (!processSection || !progressFill) return;
+    if (!processSection || !steps.length) return;
+
+    const progressFill = document.querySelector('.progress-line-fill');
 
     window.addEventListener('scroll', () => {
         const rect = processSection.getBoundingClientRect();
@@ -768,9 +769,11 @@ function initTimelineTracker() {
         let pct = (progressStart - rect.top) / (progressStart - rect.bottom);
         pct = Math.max(0, Math.min(1, pct));
 
-        const isMobile = window.innerWidth <= 992;
-        progressFill.style.width = isMobile ? '100%' : `${pct * 100}%`;
-        progressFill.style.height = isMobile ? `${pct * 100}%` : '100%';
+        if (progressFill) {
+            const isMobile = window.innerWidth <= 992;
+            progressFill.style.width = isMobile ? '100%' : `${pct * 100}%`;
+            progressFill.style.height = isMobile ? `${pct * 100}%` : '100%';
+        }
 
         // Activate step nodes sequentially
         steps.forEach((step, idx) => {
