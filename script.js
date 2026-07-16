@@ -49,8 +49,7 @@ const chatMessages = document.getElementById('chat-messages');
 
 class ConversationManager {
     constructor() {
-        this.state = 'INIT'; // States: INIT, WEBSITE, TRAFFIC_BIZ, GOAL, MINDSET, ROUTING
-        this.leadScore = 0; // Numerical score for precise routing
+        this.chatHistory = [];
         this.isTyping = false;
         this.hasInitialized = false;
     }
@@ -58,6 +57,11 @@ class ConversationManager {
     init() {
         if (this.hasInitialized) return;
         this.hasInitialized = true;
+        
+        // Push initial greetings to chat history
+        this.chatHistory.push({ role: 'bot', text: "Hey 👋 I'm Xelo. I build high-performance systems, resume sites, portfolios, and online storefronts that turn visitors into customers." });
+        this.chatHistory.push({ role: 'bot', text: "To give you the right strategy, do you already have a website or are you starting from scratch?" });
+
         this.simulateTyping(() => {
             this.appendMessage("Hey 👋 I'm Xelo. I build high-performance systems, resume sites, portfolios, and online storefronts that turn visitors into customers.", 'bot');
 
@@ -77,175 +81,256 @@ class ConversationManager {
 
     handleInput(message) {
         if (!message || this.isTyping) return;
+        
+        // Command handlers for testing AI mode client-side
+        if (message.startsWith('/apikey ') || message.startsWith('/key ')) {
+            const key = message.replace(/^\/(apikey|key)\s+/, '').trim();
+            localStorage.setItem('GEMINI_API_KEY', key);
+            this.appendMessage(message, 'user');
+            this.simulateTyping(() => {
+                this.appendMessage("Gemini API Key saved locally in your browser. Future responses will be generated directly using Google's Gemini AI model! Type `/clearkey` to remove it.", 'bot');
+                this.chatHistory.push({ role: 'bot', text: "Gemini API Key saved locally." });
+            }, 600);
+            return;
+        }
+        
+        if (message.trim() === '/clearkey') {
+            localStorage.removeItem('GEMINI_API_KEY');
+            this.appendMessage(message, 'user');
+            this.simulateTyping(() => {
+                this.appendMessage("Gemini API Key removed. Reverting to Google Apps Script proxy / local fallback.", 'bot');
+                this.chatHistory.push({ role: 'bot', text: "Gemini API Key removed." });
+            }, 600);
+            return;
+        }
+
+        // Append user query to UI
         this.appendMessage(message, 'user');
-
-        switch (this.state) {
-            case 'WEBSITE':
-                this.handleTextFallback('WEBSITE', message);
-                break;
-            case 'TRAFFIC_BIZ':
-                this.handleTextFallback('TRAFFIC_BIZ', message);
-                break;
-            case 'GOAL':
-                this.handleTextFallback('GOAL', message);
-                break;
-            case 'MINDSET':
-                this.handleTextFallback('MINDSET', message);
-                break;
-            case 'ROUTING':
-                this.simulateTyping(() => {
-                    this.appendMessage("Got it. Our team will review everything. Feel free to use the links above when you're ready.", 'bot');
-                });
-                break;
-            default:
-                this.simulateTyping(() => {
-                    this.appendMessage("I'm ready to help you scale whenever you are.", 'bot');
-                });
-        }
+        
+        // Add user message to history
+        this.chatHistory.push({ role: 'user', text: message });
+        
+        // Fetch AI response (Gemini via secure Apps Script proxy or local smart helper fallback)
+        this.getAIResponse(message);
     }
 
-    // A fallback if the user types instead of clicking buttons
-    handleTextFallback(currentState, msg) {
-        let text = msg.toLowerCase();
-
-        if (currentState === 'WEBSITE') {
-            if (text.includes('existing') || text.includes('have one')) this.handleAction('WEBSITE', 'EXISTING', msg);
-            else this.handleAction('WEBSITE', 'FRESH', msg);
-        } else if (currentState === 'TRAFFIC_BIZ') {
-            this.handleAction('TRAFFIC_BIZ', 'TEXT_FALLBACK', msg);
-        } else if (currentState === 'GOAL') {
-            this.handleAction('GOAL', 'TEXT_FALLBACK', msg);
-        } else if (currentState === 'MINDSET') {
-            if (text.includes('growth') || text.includes('scale')) this.handleAction('MINDSET', 'GROWTH', msg);
-            else this.handleAction('MINDSET', 'BASIC', msg);
-        }
-    }
-
-    handleAction(state, actionType, userText = null) {
-        // Prevent clicking old buttons
-        if (this.state !== 'INIT' && this.state !== state) return;
-
+    handleAction(state, actionType) {
         if (state === 'WEBSITE') {
-            this.appendMessage(userText || (actionType === 'EXISTING' ? "Existing Website" : "Starting Fresh"), 'user');
-
-            if (actionType === 'EXISTING') {
-                this.leadScore += 3;
-                this.simulateTyping(() => {
-                    this.appendMessage("Got it. Are you currently getting consistent traffic to it?", 'bot');
-                    this.appendHTML(`
-                        <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'TRAFFIC_YES')">Yes, steady traffic</button>
-                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'TRAFFIC_NO')">Not much yet</button>
-                        </div>
-                    `, 'bot');
-                });
-            } else {
-                this.simulateTyping(() => {
-                    this.appendMessage("Understood. What kind of project are we starting?", 'bot');
-                    this.appendHTML(`
-                        <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_SERVICE')">Service / B2B Website</button>
-                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_PORTFOLIO')">Portfolio / Resume Site</button>
-                            <button class="chat-action-btn" onclick="xelo.handleAction('TRAFFIC_BIZ', 'BIZ_ECOM')">Ecommerce Store</button>
-                        </div>
-                    `, 'bot');
-                });
-            }
-            this.state = 'TRAFFIC_BIZ';
-        }
-
-        else if (state === 'TRAFFIC_BIZ') {
-            if (actionType === 'TRAFFIC_YES') {
-                this.appendMessage(userText || "Yes, steady traffic", 'user');
-                this.leadScore += 2;
-            } else if (actionType === 'TRAFFIC_NO') {
-                this.appendMessage(userText || "Not much yet", 'user');
-            } else if (actionType === 'BIZ_SERVICE') {
-                this.appendMessage(userText || "Service / B2B Website", 'user');
-                this.leadScore += 2;
-            } else if (actionType === 'BIZ_PORTFOLIO') {
-                this.appendMessage(userText || "Portfolio / Resume Site", 'user');
-                this.leadScore += 2;
-            } else if (actionType === 'BIZ_ECOM') {
-                this.appendMessage(userText || "Ecommerce Store", 'user');
-                this.leadScore += 2;
-            } else if (actionType === 'TEXT_FALLBACK') {
-                // assume text input implies intent
-                this.leadScore += 1;
-            }
-
-            this.state = 'GOAL';
-            this.simulateTyping(() => {
-                this.appendMessage("What's the primary bottleneck right now? Leads, sales, or pure performance?", 'bot');
-                this.appendHTML(`
-                    <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'LEADS')">More Leads</button>
-                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'SALES')">More Sales</button>
-                        <button class="chat-action-btn" onclick="xelo.handleAction('GOAL', 'BASIC')">Speed / Setup</button>
-                    </div>
-                `, 'bot');
-            });
-        }
-
-        else if (state === 'GOAL') {
-            if (actionType === 'LEADS') {
-                this.appendMessage(userText || "More Leads", 'user');
-                this.leadScore += 2;
-            } else if (actionType === 'SALES') {
-                this.appendMessage(userText || "More Sales", 'user');
-                this.leadScore += 2;
-            } else {
-                this.appendMessage(userText || (actionType === 'BASIC' ? "Speed / Setup" : "Text response"), 'user');
-            }
-
-            this.state = 'MINDSET';
-            this.simulateTyping(() => {
-                this.appendMessage("Are you looking for a basic setup to get by, or a premium growth-focused system to scale?", 'bot');
-                this.appendHTML(`
-                    <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                        <button class="chat-action-btn" onclick="xelo.handleAction('MINDSET', 'GROWTH')">Growth-focused Scale</button>
-                        <button class="chat-action-btn" onclick="xelo.handleAction('MINDSET', 'BASIC')">Just a basic setup</button>
-                    </div>
-                `, 'bot');
-            });
-        }
-
-        else if (state === 'MINDSET') {
-            if (actionType === 'GROWTH') {
-                this.appendMessage(userText || "Growth-focused Scale", 'user');
-                this.leadScore += 3;
-            } else {
-                this.appendMessage(userText || "Just a basic setup", 'user');
-            }
-
-            this.state = 'ROUTING';
-            this.executeScoreRouting();
+            const text = actionType === 'EXISTING' ? "I have an existing website" : "I am starting fresh";
+            this.handleInput(text);
         }
     }
 
-    executeScoreRouting() {
+    getAIResponse(message) {
         this.simulateTyping(() => {
-            // HIGH SCORE: >= 7 (e.g. Existing Website (3) + Traffic (2) + Leads (2))
-            if (this.leadScore >= 7) {
-                this.appendMessage("Based on your traffic and growth goals, we should skip the basics. We can go over a custom conversion system in a quick 15-min call.", 'bot');
-                this.appendHTML(`<button class="chat-action-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Book a 15-min Call</button>`, 'bot');
+            const localApiKey = localStorage.getItem('GEMINI_API_KEY');
+            if (localApiKey && localApiKey.trim() !== '') {
+                this.queryGeminiDirect(message, localApiKey);
+                return;
             }
-            // MEDIUM SCORE: 4 - 6
-            else if (this.leadScore >= 4) {
-                this.appendMessage("I see. I can quickly review your current setup and suggest a better structure for your business.", 'bot');
-                this.appendHTML(`
-                    <div style="display:flex; flex-direction:column; gap:0.5rem; margin-top:0.5rem">
-                        <button class="chat-action-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Website Review</button>
-                        <button class="chat-action-btn whatsapp" onclick="window.open('https://api.whatsapp.com/send?text=Hi', '_blank')">Chat on WhatsApp</button>
-                    </div>
-                `, 'bot');
+
+            const isBackendConfigured = typeof APP_SCRIPT_URL !== 'undefined' && 
+                                       APP_SCRIPT_URL !== '' && 
+                                       APP_SCRIPT_URL.indexOf('YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') === -1;
+
+            if (isBackendConfigured) {
+                const payload = {
+                    action: 'chat',
+                    message: message,
+                    history: JSON.stringify(this.chatHistory.slice(0, -1)) // Send history up to the current turn
+                };
+
+                fetch(APP_SCRIPT_URL, {
+                    method: 'POST',
+                    body: new URLSearchParams(payload),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response failed');
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.result === 'success' && data.reply) {
+                        const reply = data.reply;
+                        this.appendMessage(reply, 'bot');
+                        this.chatHistory.push({ role: 'bot', text: reply });
+                    } else {
+                        throw new Error(data.error || 'API returns error');
+                    }
+                })
+                .catch(error => {
+                    console.warn('Google Apps Script Gemini proxy failed. Falling back to local smart helper...', error);
+                    this.handleLocalFallback(message);
+                });
+            } else {
+                this.handleLocalFallback(message);
             }
-            // LOW SCORE: < 4
-            else {
-                this.appendMessage("Makes sense. A solid foundation is key. I'd suggest starting with a simple, high-converting layout before investing heavily.", 'bot');
-                this.appendHTML(`<button class="chat-action-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Drop your email for advice</button>`, 'bot');
+        }, 1200);
+    }
+
+    queryGeminiDirect(message, apiKey) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        
+        const contents = this.chatHistory.map(item => {
+            return {
+                role: item.role === 'bot' ? 'model' : 'user',
+                parts: [{ text: item.text }]
+            };
+        });
+
+        const payload = {
+            contents: contents,
+            systemInstruction: {
+                parts: [
+                    {
+                        text: "You are Xelo, an elite growth AI consultant for Gexelo, a premium digital systems agency. Your goal is to guide visitors, answer technical questions, explain Gexelo's services, and encourage them to scale their business. \n\nServices details:\n- Launch Tier (starts at ₹25,000): 5-page conversion website, responsive layout, basic SEO, basic support.\n- Growth Tier (starts at ₹60,000): Custom UI/UX, CMS integration, blogs, advanced SEO, 90-day support.\n- Scale Tier (Custom Quote): AI chatbots, CRM & API integrations, ecommerce storefronts, automation, dedicated VIP support.\n\nGuidelines:\n- Your tone is professional, consultative, extremely intelligent, concise, and focused on scaling. \n- Keep responses short (under 3 sentences per paragraph, maximum 2 paragraphs) and structured in clear markdown (use bullets where appropriate).\n- Keep all descriptions aligned with digital engineering and growth. \n- Always encourage booking a free strategy consultation by using Gexelo's contact form, or scrolling down to get started."
+                    }
+                ]
+            }
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(response => {
+            if (!response.ok) throw new Error('API key may be invalid or quota exceeded.');
+            return response.json();
+        })
+        .then(data => {
+            if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0]) {
+                const reply = data.candidates[0].content.parts[0].text;
+                this.appendMessage(reply, 'bot');
+                this.chatHistory.push({ role: 'bot', text: reply });
+            } else {
+                throw new Error('Invalid response structure');
+            }
+        })
+        .catch(error => {
+            console.error('Direct Gemini query failed:', error);
+            this.appendMessage(`Direct query failed: ${error.message}. Falling back to local assistant...`, 'bot');
+            this.handleLocalFallback(message);
+        });
+    }
+
+    handleLocalFallback(message) {
+        const text = message.toLowerCase();
+        let reply = "";
+
+        if (text.includes('price') || text.includes('pricing') || text.includes('pricings') || text.includes('cost') || text.includes('costs') || text.includes('how much') || text.includes('fee') || text.includes('fees') || text.includes('budget') || text.includes('budgets')) {
+            reply = "We offer three transparent starting plans tailored to your stage of growth:\n\n" +
+                    "* **Launch (₹25,000):** 5-page conversion website, responsive, basic SEO, basic support.\n" +
+                    "* **Growth (₹60,000):** Custom UI/UX, CMS integration, blog systems, advanced SEO, 90-day support (Most Popular).\n" +
+                    "* **Scale (Custom Quote):** Bespoke e-commerce, AI chatbots, CRM & API integrations, dedicated VIP support.\n\n" +
+                    "Which plan matches your objectives?";
+        } 
+        else if (text.includes('launch')) {
+            reply = "Our **Launch Plan** starts at **₹25,000**. It's built for startups and contains:\n" +
+                    "- 5 conversion-optimized pages\n" +
+                    "- Full mobile responsive layouts\n" +
+                    "- Technical SEO setup & Google Analytics\n" +
+                    "- WhatsApp messaging widget integration\n" +
+                    "- 30 days of active post-launch support\n\n" +
+                    "Would you like to book a strategy call for this plan?";
+        } 
+        else if (text.includes('growth')) {
+            reply = "Our **Growth Plan** starts at **₹60,000**. Ideal for expanding businesses, it adds:\n" +
+                    "- Dynamic CMS (content management system) integration\n" +
+                    "- Custom bespoke UI/UX designs\n" +
+                    "- Business blog system & speed tuning\n" +
+                    "- Higher tier Technical & On-page SEO campaign\n" +
+                    "- 90 days of dedicated VIP support\n\n" +
+                    "Let me know if you would like to book a strategy call to get started!";
+        } 
+        else if (text.includes('scale')) {
+            reply = "Our **Scale Plan** is quote-based and custom-engineered for enterprise dominant results. It features:\n" +
+                    "- Custom Ecommerce integrations\n" +
+                    "- AI Chatbot (Xelo) customer assistants\n" +
+                    "- Full CRM, database, & webhook integrations\n" +
+                    "- Marketing automations & admin dashboards\n" +
+                    "- Dedicated, 24/7 technical VIP support\n\n" +
+                    "We can discuss this in detail during a strategy discovery session.";
+        } 
+        else if (text.includes('portfolio') || text.includes('work') || text.includes('recent') || text.includes('case study') || text.includes('works') || text.includes('portfolios') || text.includes('example') || text.includes('examples')) {
+            reply = "We design executive resume sites, portfolios, and e-commerce platforms. Scroll to the **Recent Work** section above to view live platforms we've deployed, or let me know if you have a specific niche in mind!";
+        } 
+        else if (text.includes('service') || text.includes('services') || text.includes('capability') || text.includes('capabilities') || text.includes('what you do') || text.includes('what do you do') || text.includes('features') || text.includes('offer') || text.includes('offers') || text.includes('offering') || text.includes('offerings')) {
+            reply = "Gexelo builds high-performance growth engines including:\n" +
+                    "* **B2B & Service Websites**\n" +
+                    "* **Ecommerce Storefronts**\n" +
+                    "* **Personal Branding & Portfolios**\n" +
+                    "* **Growth Optimization & A/B testing**\n\n" +
+                    "Which category best fits your digital goals?";
+        } 
+        else if (text.includes('process') || text.includes('how you work') || text.includes('timeline') || text.includes('step') || text.includes('steps') || text.includes('method') || text.includes('methodology')) {
+            reply = "We use a 3-step synchronized timeline to guarantee conversions:\n" +
+                    "1. **Understand (Phase 1):** We study your target customers and bottlenecks.\n" +
+                    "2. **Build (Phase 2):** We develop custom designs and performance tracking.\n" +
+                    "3. **Launch & Optimize (Phase 3):** We iterate and perform continuous speed tests.\n\n" +
+                    "Scroll to the **Deployment Process** section to check it out.";
+        } 
+        else if (text.includes('contact') || text.includes('call') || text.includes('strategy') || text.includes('book') || text.includes('appointment') || text.includes('meeting') || text.includes('schedule') || text.includes('strategy call')) {
+            reply = "You can fill out the contact form directly on this page to schedule a 15-minute strategy discovery session. Our execution team will review your business bottlenecks and outline a conversion roadmap!";
+        } 
+        else if (text.includes('xelo') || text.includes('xora') || text.includes('who are you') || text.includes('your name') || text.includes('what are you') || text.includes('who you are')) {
+            reply = "I'm **Xelo**, Gexelo's AI Growth Consultant. I'm here to answer your questions about our agency, our capabilities, our pricing plans, and guide you towards scaling your business!";
+        } 
+        else if (text.includes('hello') || text.includes('hi') || text.includes('hey') || text.includes('greet') || text.includes('greetings')) {
+            reply = "Hello! 👋 How can Gexelo help you scale your business today? Ask me about our website pricing, technical capabilities, or our process!";
+        } 
+        else {
+            reply = "I'm here to help you scale your business. Ask me anything about our web engineering capabilities, pricing plans (Launch, Growth, Scale), process timelines, or how to schedule a discovery call!";
+        }
+
+        this.appendMessage(reply, 'bot');
+        this.chatHistory.push({ role: 'bot', text: reply });
+    }
+
+    formatMarkdown(text) {
+        if (!text) return "";
+        let html = text;
+        
+        // Escape HTML to prevent injection
+        html = html
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;");
+            
+        // Bold formatting (**text**)
+        html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+        
+        // Bullet lists (* text or - text)
+        const lines = html.split('\n');
+        let inList = false;
+        const formattedLines = lines.map(line => {
+            const trimmed = line.trim();
+            if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+                const content = trimmed.substring(2);
+                if (!inList) {
+                    inList = true;
+                    return '<ul style="margin: 0.5rem 0 0.5rem 1.2rem; padding: 0; list-style-type: disc;"><li>' + content + '</li>';
+                }
+                return '<li>' + content + '</li>';
+            } else {
+                if (inList) {
+                    inList = false;
+                    return '</ul>' + line;
+                }
+                return line;
             }
         });
+        
+        html = formattedLines.join('<br>');
+        if (inList) {
+            html += '</ul>';
+        }
+        
+        return html;
     }
 
     simulateTyping(callback, delay = 1200) {
@@ -284,7 +369,12 @@ class ConversationManager {
 
         const contentDiv = document.createElement('div');
         contentDiv.classList.add('msg-content');
-        contentDiv.innerText = text;
+        
+        if (sender === 'bot') {
+            contentDiv.innerHTML = this.formatMarkdown(text);
+        } else {
+            contentDiv.innerText = text;
+        }
 
         msgDiv.appendChild(contentDiv);
         chatMessages.appendChild(msgDiv);

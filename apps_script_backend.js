@@ -3,6 +3,93 @@
  * Handle POST request from the website.
  */
 function doPost(e) {
+  var parameter = e.parameter;
+
+  // In case the data is sent as raw JSON
+  if (e.postData && e.postData.contents) {
+    try {
+      var json = JSON.parse(e.postData.contents);
+      parameter = json;
+    } catch (err) {
+      // Not a JSON string, fallback to standard parameters
+    }
+  }
+
+  // Handle chatbot actions securely (proxying user query to Gemini API)
+  if (parameter && parameter.action === "chat") {
+    try {
+      var apiKey = PropertiesService.getScriptProperties().getProperty("GEMINI_API_KEY");
+      if (!apiKey) {
+        return ContentService.createTextOutput(JSON.stringify({
+          "result": "error",
+          "error": "GEMINI_API_KEY is not configured in Script Properties."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
+
+      var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=" + apiKey;
+      
+      var contents = [];
+      if (parameter.history) {
+        var parsedHistory = typeof parameter.history === 'string' ? JSON.parse(parameter.history) : parameter.history;
+        if (Array.isArray(parsedHistory)) {
+          contents = parsedHistory.map(function(item) {
+            return {
+              "role": item.role === "bot" ? "model" : "user",
+              "parts": [{ "text": item.text }]
+            };
+          });
+        }
+      }
+      
+      if (parameter.message) {
+        contents.push({
+          "role": "user",
+          "parts": [{ "text": parameter.message }]
+        });
+      }
+
+      var payload = {
+        "contents": contents,
+        "systemInstruction": {
+          "parts": [
+            {
+              "text": "You are Xelo, an elite growth AI consultant for Gexelo, a premium digital systems agency. Your goal is to guide visitors, answer technical questions, explain Gexelo's services, and encourage them to scale their business. \n\nServices details:\n- Launch Tier (starts at ₹25,000): 5-page conversion website, responsive layout, basic SEO, basic support.\n- Growth Tier (starts at ₹60,000): Custom UI/UX, CMS integration, blogs, advanced SEO, 90-day support.\n- Scale Tier (Custom Quote): AI chatbots, CRM & API integrations, ecommerce storefronts, automation, dedicated VIP support.\n\nGuidelines:\n- Your tone is professional, consultative, extremely intelligent, concise, and focused on scaling. \n- Keep responses short (under 3 sentences per paragraph, maximum 2 paragraphs) and structured in clear markdown (use bullets where appropriate).\n- Keep all descriptions aligned with digital engineering and growth. \n- Always encourage booking a free strategy consultation by using Gexelo's contact form, or scrolling down to get started."
+            }
+          ]
+        }
+      };
+
+      var options = {
+        "method": "post",
+        "contentType": "application/json",
+        "payload": JSON.stringify(payload),
+        "muteHttpExceptions": true
+      };
+
+      var response = UrlFetchApp.fetch(url, options);
+      var responseText = response.getContentText();
+      var responseJson = JSON.parse(responseText);
+
+      var reply = "";
+      if (responseJson.candidates && responseJson.candidates[0] && responseJson.candidates[0].content && responseJson.candidates[0].content.parts[0]) {
+        reply = responseJson.candidates[0].content.parts[0].text;
+      } else {
+        reply = "I'm experiencing a high volume of requests. How can I help you scale today?";
+      }
+
+      return ContentService.createTextOutput(JSON.stringify({
+        "result": "success",
+        "reply": reply
+      })).setMimeType(ContentService.MimeType.JSON);
+
+    } catch (err) {
+      return ContentService.createTextOutput(JSON.stringify({
+        "result": "error",
+        "error": err.toString()
+      })).setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
   var sheet;
 
   try {
